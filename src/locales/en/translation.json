@@ -1,0 +1,77 @@
+{
+  "common": {
+    "appName": "Gogo Admin",
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "create": "Create",
+    "actions": "Actions",
+    "back": "Back",
+    "english": "English",
+    "ukrainian": "Ukrainian",
+    "languageChanged": "Language changed"
+  },
+  "auth": {
+    "welcome": "Sign in to continue",
+    "email": "Email",
+    "password": "Password",
+    "loginButton": "Sign in",
+    "logout": "Log out",
+    "emailRequired": "Email is required",
+    "emailInvalid": "Enter a valid email",
+    "passwordRequired": "Password is required",
+    "invalidCredentials": "Invalid email or password",
+    "accessDenied": "Access denied",
+    "loginRequired": "Please sign in to continue",
+    "profile": "Profile"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "examples": "Examples"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Welcome, {{name}}",
+    "subtitle": "Use the sidebar to manage examples."
+  },
+  "examples": {
+    "title": "Examples",
+    "add": "Add example",
+    "edit": "Edit example",
+    "create": "Create example",
+    "titleField": "Title",
+    "descriptionField": "Description",
+    "titleRequired": "Title is required",
+    "createdAt": "Created",
+    "updatedAt": "Updated",
+    "loadFailed": "Failed to load examples",
+    "saveFailed": "Failed to save example",
+    "deleteFailed": "Failed to delete example",
+    "deleted": "Example deleted",
+    "saved": "Example saved",
+    "deleteConfirm": "Delete this example?",
+    "empty": "No examples yet"
+  },
+  "messages": {
+    "unsavedChangesTitle": "Unsaved changes",
+    "unsavedChanges": "You have unsaved changes. Leave without saving?",
+    "unsavedChangesLeave": "Leave"
+  },
+  "errors": {
+    "fallback": "Something went wrong",
+    "unauthorized": "Unauthorized",
+    "auth.invalid_credentials": "Invalid email or password",
+    "auth.invalid_token": "Invalid or expired token",
+    "auth.token_required": "Authentication required",
+    "auth.user_not_found": "User not found",
+    "auth.user_exists": "User already exists",
+    "examples.not_found": "Example not found",
+    "validation.failed": "Validation failed",
+    "validation.title.required": "Title is required",
+    "bad_request": "Bad request",
+    "not_found": "Not found",
+    "internal_error": "Internal server error"
+  }
+}
