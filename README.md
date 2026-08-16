@@ -1,11 +1,10 @@
 # Gogo Front – React Admin Starter
 
-Admin UI starter kit paired with the [`gogo`](../gogo) Go API. Built like `smartcity-backoffice-front`: React 19, Vite, Ant Design, Zustand, i18next, Playwright POM, and `node:test` unit tests.
+Admin UI starter kit. React 19, Vite, Ant Design, Zustand, i18next, Playwright POM, and `node:test` unit tests.
 
 ## Prerequisites
 
 - Node.js 20+
-- Running or available [`gogo`](../gogo) API (PostgreSQL + Redis)
 - `TEST_DATABASE_URL` for E2E (same DB as gogo tests)
 
 ## Quick start
@@ -76,7 +75,4 @@ Add `data-testid` to every interactive control. E2E uses `page.getByTestId(...)`
 
 | Service | Dev URL |
 |---------|---------|
-| gogo API | http://localhost:8181 |
-| gogo-front | http://localhost:5173 |
-| E2E API | http://localhost:8183 (`--test-db`) |
 | E2E front | http://localhost:5174 |
