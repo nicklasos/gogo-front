@@ -1,4 +1,4 @@
-.PHONY: help install dev build preview lint lint-fix test test-unit test-e2e test-e2e-ui test-e2e-headed clean playwright-browsers env-check db-test-setup
+.PHONY: help install dev build preview typecheck lint lint-fix test test-unit test-e2e test-e2e-ui test-e2e-headed clean playwright-browsers env-check db-test-setup
 
 help: ## Show available commands
 	@echo "Gogo Front - Available Commands:"
@@ -11,25 +11,27 @@ install: ## Install dependencies
 dev: ## Start Vite dev server
 	npm run dev
 
-build: ## Production build
+build: ## Typecheck and production build
 	npm run build
 
 preview: ## Preview production build
 	npm run preview
 
-lint: ## Run ESLint
+typecheck: ## TypeScript check (src, configs and E2E)
+	npm run typecheck
+
+lint: typecheck ## Typecheck, then ESLint
 	npm run lint
 
 lint-fix: ## ESLint with --fix
 	npm run lint -- --fix
 
-test: ## Run Playwright E2E tests
-	npx playwright test
+test: lint test-unit test-e2e ## Everything: typecheck, lint, unit, E2E
 
 test-unit: ## Run unit tests (node:test)
 	npm run test:unit
 
-test-e2e: ## Alias for test
+test-e2e: ## Playwright E2E (starts gogo with --test-db and Vite on the E2E ports)
 	npx playwright test
 
 test-e2e-ui: ## Playwright UI mode

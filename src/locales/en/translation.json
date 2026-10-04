@@ -11,7 +11,15 @@
     "back": "Back",
     "english": "English",
     "ukrainian": "Ukrainian",
-    "languageChanged": "Language changed"
+    "languageChanged": "Language changed",
+    "required": "Required",
+    "createdAt": "Created",
+    "yes": "Yes",
+    "no": "No",
+    "copied": "Copied to clipboard",
+    "search": "Search",
+    "notFound": "Not found",
+    "retry": "Try again"
   },
   "auth": {
     "welcome": "Sign in to continue",
@@ -24,12 +32,23 @@
     "passwordRequired": "Password is required",
     "invalidCredentials": "Invalid email or password",
     "accessDenied": "Access denied",
-    "loginRequired": "Please sign in to continue",
-    "profile": "Profile"
+    "noPermission": "You don't have permission to open this page."
   },
   "navigation": {
     "dashboard": "Dashboard",
-    "examples": "Examples"
+    "examples": "Examples",
+    "users": "Users",
+    "profile": "Profile",
+    "adminMenu": "Admin menu",
+    "superAdmins": "Super admins",
+    "admins": "Admins"
+  },
+  "enums": {
+    "role": {
+      "super-admin": "Super admin",
+      "admin": "Admin",
+      "user": "User"
+    }
   },
   "dashboard": {
     "title": "Dashboard",
@@ -44,15 +63,57 @@
     "titleField": "Title",
     "descriptionField": "Description",
     "titleRequired": "Title is required",
-    "createdAt": "Created",
-    "updatedAt": "Updated",
-    "loadFailed": "Failed to load examples",
-    "saveFailed": "Failed to save example",
-    "deleteFailed": "Failed to delete example",
     "deleted": "Example deleted",
     "saved": "Example saved",
     "deleteConfirm": "Delete this example?",
     "empty": "No examples yet"
+  },
+  "userManagement": {
+    "byRole": {
+      "super-admin": {
+        "title": "Super admins",
+        "add": "Add super admin",
+        "edit": "Edit super admin"
+      },
+      "admin": {
+        "title": "Admins",
+        "add": "Add admin",
+        "edit": "Edit admin"
+      },
+      "user": {
+        "title": "Users",
+        "add": "Add user",
+        "edit": "Edit user"
+      }
+    },
+    "userName": "Name",
+    "userEmail": "Email",
+    "password": "Password",
+    "newPassword": "New password",
+    "setPassword": "Set password",
+    "passwordTooShort": "At least 8 characters",
+    "roles": "Roles",
+    "empty": "No users yet",
+    "userCreated": "User created",
+    "userUpdated": "User updated",
+    "userDeleted": "User deleted",
+    "passwordUpdated": "Password updated",
+    "deleteConfirm": "Delete this user?",
+    "deleteConfirmDescription": "This cannot be undone."
+  },
+  "profile": {
+    "title": "Profile",
+    "personalInfo": "Personal information",
+    "name": "Name",
+    "language": "Language",
+    "updateProfile": "Update profile",
+    "profileUpdated": "Profile updated",
+    "changePassword": "Change password",
+    "currentPassword": "Current password",
+    "newPassword": "New password",
+    "confirmPassword": "Confirm password",
+    "passwordMismatch": "Passwords do not match",
+    "passwordChanged": "Password changed"
   },
   "messages": {
     "unsavedChangesTitle": "Unsaved changes",
@@ -62,16 +123,30 @@
   "errors": {
     "fallback": "Something went wrong",
     "unauthorized": "Unauthorized",
+    "forbidden": "Forbidden",
+    "bad_request": "Bad request",
+    "not_found": "Not found",
+    "internal_error": "Internal server error",
     "auth.invalid_credentials": "Invalid email or password",
     "auth.invalid_token": "Invalid or expired token",
     "auth.token_required": "Authentication required",
     "auth.user_not_found": "User not found",
-    "auth.user_exists": "User already exists",
+    "auth.user_exists": "A user with this email already exists",
+    "auth.invalid_current_password": "Current password is incorrect",
+    "users.not_found": "User not found",
+    "users.forbidden_role": "You cannot manage users with this role",
+    "users.cannot_delete_self": "You cannot delete yourself",
     "examples.not_found": "Example not found",
+    "uploads.not_found": "File not found",
     "validation.failed": "Validation failed",
-    "validation.title.required": "Title is required",
-    "bad_request": "Bad request",
-    "not_found": "Not found",
-    "internal_error": "Internal server error"
+    "validation.required": "Required field",
+    "validation.email": "Invalid email",
+    "validation.min": "Value is too short or too small",
+    "validation.max": "Value is too long or too large",
+    "validation.oneof": "Value is not allowed",
+    "validation.invalid": "Invalid value",
+    "validation.type_mismatch": "Wrong value type",
+    "validation.body_invalid": "Invalid request",
+    "validation.title.required": "Title is required"
   }
 }

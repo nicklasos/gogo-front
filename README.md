@@ -1,41 +1,42 @@
 # Gogo Front – React Admin Starter
 
-Admin UI starter kit. React 19, Vite, Ant Design, Zustand, i18next, Playwright POM, and `node:test` unit tests.
+Admin UI starter kit for the [gogo](../gogo) Go API. React 19, Vite, TypeScript, Ant Design, TanStack Query, i18next, Playwright and `node:test`.
 
 ## Prerequisites
 
-- Node.js 20+
-- `TEST_DATABASE_URL` for E2E (same DB as gogo tests)
+- Node.js 22+
+- The gogo API running, with at least one user (`make -C ../gogo cli-create-user EMAIL=... PASSWORD=...` creates a super admin)
+- `TEST_DATABASE_URL` for E2E (the gogo test database)
 
 ## Quick start
 
 ```bash
 cp .env.example .env
-# Point VITE_API_BASE_URL at gogo (default http://localhost:8181)
-# Set TEST_DATABASE_URL to gogo_test
-
 npm install
-# Start gogo API separately (user-run): make -C ../gogo run
 npm run dev   # http://localhost:5173
 ```
 
 ## Features
 
-- Email/password login against gogo `/api/v1/auth/*`
-- App shell: sidebar, language switcher (en/uk), logout
-- **Examples** CRUD with pagination (`/api/v1/examples`)
-- Unsaved-changes guard on the editor
-- Unit tests (`node:test`) + Playwright E2E
+- Email/password login with automatic token refresh
+- Roles: `super-admin`, `admin`, `user`, with route guards and role-filtered menus
+- User management: super admins and admins from a right-side admin menu (super admins only), users from the main menu (admins and super admins)
+- Profile: name, email, language and password
+- **Examples** module: server-paginated list and an editor with an unsaved-changes guard
+- Typed API client: `ApiError`, server validation errors mapped onto form fields, translated error keys
+- Responsive shell: tables turn into cards and the primary action becomes a bottom bar on phones
+- English and Ukrainian
 
-## Scripts / Make
+## Make targets
 
 ```bash
 make help
-make install
-make lint
-make test-unit      # node:test
-make test           # Playwright E2E (starts gogo --test-db + Vite)
-make test-e2e-headed
+make typecheck
+make lint            # typecheck + eslint
+make test-unit       # node:test
+make test-e2e        # Playwright (starts gogo --test-db + Vite on the E2E ports)
+make test            # everything
+make build
 make playwright-browsers
 ```
 
@@ -43,36 +44,39 @@ make playwright-browsers
 
 | Variable | Purpose |
 |----------|---------|
-| `VITE_API_BASE_URL` | gogo API origin (e.g. `http://localhost:8181`) |
-| `TEST_FRONTEND_PORT` | E2E Vite port (default `5174`) |
-| `TEST_BACKEND_PORT` | E2E gogo port (default `8183`) |
-| `TEST_DATABASE_URL` | Postgres test DB for E2E seeding |
+| `VITE_API_BASE_URL` | gogo API origin, e.g. `http://localhost:8181` (the client appends `/api/v1`) |
+| `PORT` | Dev server port (default `5173`) |
+| `TEST_FRONTEND_PORT` | E2E Vite port (default `5175`) |
+| `TEST_BACKEND_PORT` | E2E gogo port (default `8184`) |
+| `VITE_E2E_API_BASE_URL` | API base used by E2E helpers (default `http://localhost:8184/api/v1`) |
+| `TEST_DATABASE_URL` | gogo test database for E2E seeding; the name must end in `_test` |
+
+The E2E ports are specific to this project so Playwright never attaches to another project's servers. Change them when you copy the skeleton.
 
 ## Project structure
 
 ```
 src/
-  App.jsx                 # Shell, routes, AuthSessionGate
-  components/             # LoginPage, ProtectedRoute, LanguageSwitcher
-  pages/                  # Dashboard, Examples, ExampleEditor
-  stores/authStore.js     # Zustand + persist (gogo-auth)
-  utils/apiClient.js      # fetch + refresh-on-401
-  lib/unsavedChanges/     # Dirty form navigation guard
+  app/        App, providers, queryClient, router, theme, i18n
+  api/        client (fetch + refresh-on-401), ApiError, shared types, query keys
+  auth/       authStore (persist key: gogo-auth), roles, guards, LoginPage
+  layout/     AppShell, nav registry
+  shared/     components, hooks, utils, lib/unsavedChanges
+  features/   dashboard, examples, users, account
   locales/{en,uk}/
-tests/e2e/                # Playwright specs + POM + db-helper
+tests/e2e/    Playwright specs, page objects, helpers
 ```
 
-## Auth contract (gogo)
+## Adding a module
 
-Login/refresh responses use `{ data: { access_token, refresh_token, user } }`.  
-`/auth/me` returns `{ data: { id, email, name } }`.
+Create `src/features/<module>/{types,api,hooks}.ts` and `pages/`, add query keys, a route and a menu entry. `CLAUDE.md` has the step-by-step list and the conventions; `features/examples` is the reference.
 
-## Test locators
+## API contract (gogo)
 
-Add `data-testid` to every interactive control. E2E uses `page.getByTestId(...)` and Page Object Model under `tests/e2e/pages/`.
+- Success: `{ "data": ... }`; paginated lists: `{ "data": [...], "pagination": { total, current_page, last_page, per_page } }`
+- Errors: `{ "error_key", "message", "status" }`; validation: `{ "error_key": "validation.failed", "errors": { "field": ["validation.field.rule"] } }`
+- `/auth/login` returns `{ access_token, refresh_token, user }`; `user` is `{ id, email, name, roles }`
 
-## Pairing with gogo
+## Roadmap
 
-| Service | Dev URL |
-|---------|---------|
-| E2E front | http://localhost:5174 |
+See `ROADMAP.md`.

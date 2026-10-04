@@ -11,7 +11,15 @@
     "back": "Назад",
     "english": "English",
     "ukrainian": "Українська",
-    "languageChanged": "Мову змінено"
+    "languageChanged": "Мову змінено",
+    "required": "Обовʼязкове поле",
+    "createdAt": "Створено",
+    "yes": "Так",
+    "no": "Ні",
+    "copied": "Скопійовано",
+    "search": "Пошук",
+    "notFound": "Не знайдено",
+    "retry": "Спробувати ще раз"
   },
   "auth": {
     "welcome": "Увійдіть, щоб продовжити",
@@ -24,12 +32,23 @@
     "passwordRequired": "Пароль обовʼязковий",
     "invalidCredentials": "Невірний email або пароль",
     "accessDenied": "Доступ заборонено",
-    "loginRequired": "Увійдіть, щоб продовжити",
-    "profile": "Профіль"
+    "noPermission": "У вас немає прав на перегляд цієї сторінки."
   },
   "navigation": {
     "dashboard": "Дашборд",
-    "examples": "Приклади"
+    "examples": "Приклади",
+    "users": "Користувачі",
+    "profile": "Профіль",
+    "adminMenu": "Адмін-меню",
+    "superAdmins": "Супер-адміни",
+    "admins": "Адміни"
+  },
+  "enums": {
+    "role": {
+      "super-admin": "Супер-адмін",
+      "admin": "Адмін",
+      "user": "Користувач"
+    }
   },
   "dashboard": {
     "title": "Дашборд",
@@ -44,15 +63,57 @@
     "titleField": "Заголовок",
     "descriptionField": "Опис",
     "titleRequired": "Заголовок обовʼязковий",
-    "createdAt": "Створено",
-    "updatedAt": "Оновлено",
-    "loadFailed": "Не вдалося завантажити приклади",
-    "saveFailed": "Не вдалося зберегти приклад",
-    "deleteFailed": "Не вдалося видалити приклад",
     "deleted": "Приклад видалено",
     "saved": "Приклад збережено",
     "deleteConfirm": "Видалити цей приклад?",
     "empty": "Прикладів ще немає"
+  },
+  "userManagement": {
+    "byRole": {
+      "super-admin": {
+        "title": "Супер-адміни",
+        "add": "Додати супер-адміна",
+        "edit": "Редагувати супер-адміна"
+      },
+      "admin": {
+        "title": "Адміни",
+        "add": "Додати адміна",
+        "edit": "Редагувати адміна"
+      },
+      "user": {
+        "title": "Користувачі",
+        "add": "Додати користувача",
+        "edit": "Редагувати користувача"
+      }
+    },
+    "userName": "Імʼя",
+    "userEmail": "Email",
+    "password": "Пароль",
+    "newPassword": "Новий пароль",
+    "setPassword": "Встановити пароль",
+    "passwordTooShort": "Щонайменше 8 символів",
+    "roles": "Ролі",
+    "empty": "Користувачів ще немає",
+    "userCreated": "Користувача створено",
+    "userUpdated": "Користувача оновлено",
+    "userDeleted": "Користувача видалено",
+    "passwordUpdated": "Пароль оновлено",
+    "deleteConfirm": "Видалити цього користувача?",
+    "deleteConfirmDescription": "Цю дію неможливо скасувати."
+  },
+  "profile": {
+    "title": "Профіль",
+    "personalInfo": "Особисті дані",
+    "name": "Імʼя",
+    "language": "Мова",
+    "updateProfile": "Оновити профіль",
+    "profileUpdated": "Профіль оновлено",
+    "changePassword": "Змінити пароль",
+    "currentPassword": "Поточний пароль",
+    "newPassword": "Новий пароль",
+    "confirmPassword": "Підтвердіть пароль",
+    "passwordMismatch": "Паролі не збігаються",
+    "passwordChanged": "Пароль змінено"
   },
   "messages": {
     "unsavedChangesTitle": "Незбережені зміни",
@@ -62,16 +123,30 @@
   "errors": {
     "fallback": "Щось пішло не так",
     "unauthorized": "Не авторизовано",
+    "forbidden": "Заборонено",
+    "bad_request": "Некоректний запит",
+    "not_found": "Не знайдено",
+    "internal_error": "Внутрішня помилка сервера",
     "auth.invalid_credentials": "Невірний email або пароль",
     "auth.invalid_token": "Невірний або прострочений токен",
     "auth.token_required": "Потрібна авторизація",
     "auth.user_not_found": "Користувача не знайдено",
-    "auth.user_exists": "Користувач уже існує",
+    "auth.user_exists": "Користувач із таким email уже існує",
+    "auth.invalid_current_password": "Поточний пароль невірний",
+    "users.not_found": "Користувача не знайдено",
+    "users.forbidden_role": "Ви не можете керувати користувачами з цією роллю",
+    "users.cannot_delete_self": "Ви не можете видалити себе",
     "examples.not_found": "Приклад не знайдено",
+    "uploads.not_found": "Файл не знайдено",
     "validation.failed": "Помилка валідації",
-    "validation.title.required": "Заголовок обовʼязковий",
-    "bad_request": "Некоректний запит",
-    "not_found": "Не знайдено",
-    "internal_error": "Внутрішня помилка сервера"
+    "validation.required": "Обовʼязкове поле",
+    "validation.email": "Некоректний email",
+    "validation.min": "Значення закоротке або замале",
+    "validation.max": "Значення задовге або завелике",
+    "validation.oneof": "Недопустиме значення",
+    "validation.invalid": "Некоректне значення",
+    "validation.type_mismatch": "Невірний тип значення",
+    "validation.body_invalid": "Некоректний запит",
+    "validation.title.required": "Заголовок обовʼязковий"
   }
 }
