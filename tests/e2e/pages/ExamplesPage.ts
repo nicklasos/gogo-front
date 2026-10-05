@@ -36,6 +36,12 @@ export class ExamplesPage extends BasePage {
     await expect(this.page.getByTestId('example-editor-page')).toBeVisible()
   }
 
+  async closePreview(): Promise<void> {
+    const dialog = this.page.getByRole('dialog')
+    await dialog.getByRole('button', { name: 'Close' }).click()
+    await expect(dialog).toBeHidden()
+  }
+
   async edit(title: string): Promise<void> {
     await this.row(title).locator('[data-testid^="edit-example-button-"]').click()
     await expect(this.page.getByTestId('example-editor-page')).toBeVisible()

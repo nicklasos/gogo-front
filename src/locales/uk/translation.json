@@ -100,7 +100,8 @@
     "deleted": "Приклад видалено",
     "saved": "Приклад збережено",
     "deleteConfirm": "Видалити цей приклад?",
-    "empty": "Прикладів ще немає"
+    "empty": "Прикладів ще немає",
+    "view": "Переглянути"
   },
   "userManagement": {
     "byRole": {
@@ -211,5 +212,85 @@
     "type": "Тип",
     "size": "Розмір",
     "tooLarge": "Файл більший за {{max}} МБ"
+  },
+  "editor": {
+    "placeholder": "Введіть текст",
+    "dialogControls": {
+      "save": "Зберегти",
+      "cancel": "Скасувати"
+    },
+    "createLink": {
+      "url": "URL",
+      "urlPlaceholder": "Виберіть або вставте URL",
+      "title": "Назва",
+      "saveTooltip": "Установити URL",
+      "cancelTooltip": "Скасувати зміну"
+    },
+    "linkPreview": {
+      "open": "Відкрити {{url}} у новому вікні",
+      "edit": "Редагувати URL посилання",
+      "copyToClipboard": "Скопіювати в буфер обміну",
+      "copied": "Скопійовано!",
+      "remove": "Видалити посилання"
+    },
+    "toolbar": {
+      "blockTypes": {
+        "paragraph": "Абзац",
+        "quote": "Цитата",
+        "heading": "Заголовок {{level}}"
+      },
+      "blockTypeSelect": {
+        "selectBlockTypeTooltip": "Виберіть тип блоку",
+        "placeholder": "Тип блоку"
+      },
+      "toggleGroup": "Група перемикачів",
+      "removeBold": "Прибрати жирний шрифт",
+      "bold": "Жирний шрифт",
+      "removeItalic": "Видалити курсив",
+      "italic": "Курсив",
+      "underline": "Прибрати підкреслення",
+      "removeUnderline": "Підкреслення",
+      "removeInlineCode": "Видалити форматування коду",
+      "inlineCode": "Формат вбудованого коду",
+      "link": "Створити посилання",
+      "richText": "Розширений текст",
+      "diffMode": "Режим різниці",
+      "source": "Режим вихідних даних",
+      "admonition": "Вставити застереження",
+      "codeBlock": "Вставити блок коду",
+      "editFrontmatter": "Редагувати frontmatter",
+      "insertFrontmatter": "Вставити frontmatter",
+      "image": "Вставити зображення",
+      "insertSandpack": "Вставити Sandpack",
+      "table": "Вставити таблицю",
+      "thematicBreak": "Вставити тематичний розрив",
+      "bulletedList": "Маркований список",
+      "numberedList": "Нумерований список",
+      "checkList": "Контрольний список",
+      "deleteSandpack": "Видалити цей блок коду",
+      "undo": "Скасувати {{shortcut}}",
+      "redo": "Повторити скасоване {{shortcut}}",
+      "highlight": "Виділити",
+      "removeHighlight": "Прибрати виділення"
+    },
+    "customLinks": {
+      "phone": {
+        "button": "Телефон",
+        "tooltip": "Вставити посилання на телефон",
+        "placeholder": "Введіть номер телефону",
+        "submit": "Вставити телефон"
+      },
+      "email": {
+        "button": "Ел. пошта",
+        "tooltip": "Вставити посилання на email",
+        "placeholder": "Введіть email адресу",
+        "submit": "Вставити email"
+      }
+    },
+    "contentArea": {
+      "editableMarkdown": "редагований маркдаун"
+    },
+    "crashMessage": "Редактор зіткнувся з проблемою. Можна спробувати ще раз, не залишаючи сторінку.",
+    "crashRetry": "Спробувати ще раз"
   }
 }

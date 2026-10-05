@@ -96,7 +96,8 @@
     "deleted": "Example deleted",
     "saved": "Example saved",
     "deleteConfirm": "Delete this example?",
-    "empty": "No examples yet"
+    "empty": "No examples yet",
+    "view": "View"
   },
   "userManagement": {
     "byRole": {
@@ -207,5 +208,85 @@
     "type": "Type",
     "size": "Size",
     "tooLarge": "The file is larger than {{max}} MB"
+  },
+  "editor": {
+    "placeholder": "Enter content",
+    "dialogControls": {
+      "save": "Save",
+      "cancel": "Cancel"
+    },
+    "createLink": {
+      "url": "URL",
+      "urlPlaceholder": "Select or paste URL",
+      "title": "Title",
+      "saveTooltip": "Set URL",
+      "cancelTooltip": "Cancel change"
+    },
+    "linkPreview": {
+      "open": "Open {{url}} in new window",
+      "edit": "Edit link URL",
+      "copyToClipboard": "Copy to clipboard",
+      "copied": "Copied!",
+      "remove": "Remove link"
+    },
+    "toolbar": {
+      "blockTypes": {
+        "paragraph": "Paragraph",
+        "quote": "Quote",
+        "heading": "Heading {{level}}"
+      },
+      "blockTypeSelect": {
+        "selectBlockTypeTooltip": "Select block type",
+        "placeholder": "Block type"
+      },
+      "toggleGroup": "Toggle group",
+      "removeBold": "Remove bold",
+      "bold": "Bold",
+      "removeItalic": "Remove italic",
+      "italic": "Italic",
+      "underline": "Remove underline",
+      "removeUnderline": "Underline",
+      "removeInlineCode": "Remove code formatting",
+      "inlineCode": "Inline code format",
+      "link": "Create link",
+      "richText": "Rich text",
+      "diffMode": "Diff mode",
+      "source": "Source mode",
+      "admonition": "Insert admonition",
+      "codeBlock": "Insert code block",
+      "editFrontmatter": "Edit frontmatter",
+      "insertFrontmatter": "Insert frontmatter",
+      "image": "Insert image",
+      "insertSandpack": "Insert Sandpack",
+      "table": "Insert table",
+      "thematicBreak": "Insert thematic break",
+      "bulletedList": "Bulleted list",
+      "numberedList": "Numbered list",
+      "checkList": "Check list",
+      "deleteSandpack": "Delete this code block",
+      "undo": "Undo {{shortcut}}",
+      "redo": "Redo {{shortcut}}",
+      "highlight": "Highlight",
+      "removeHighlight": "Remove highlight"
+    },
+    "customLinks": {
+      "phone": {
+        "button": "Phone",
+        "tooltip": "Insert phone link",
+        "placeholder": "Enter phone number",
+        "submit": "Insert phone link"
+      },
+      "email": {
+        "button": "Email",
+        "tooltip": "Insert email link",
+        "placeholder": "Enter email address",
+        "submit": "Insert email link"
+      }
+    },
+    "contentArea": {
+      "editableMarkdown": "editable markdown"
+    },
+    "crashMessage": "The editor ran into a problem. You can retry without leaving the page.",
+    "crashRetry": "Retry"
   }
 }

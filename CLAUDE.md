@@ -40,7 +40,7 @@ Import with the `@/` alias. A feature imports from `api`, `auth`, `layout` and `
 6. Add the route to `app/router.tsx` as a `lazy(() => import(...))` page (default export) and the menu entry to `layout/nav.tsx`.
 7. Add locale keys to both `en` and `uk`.
 
-`features/examples` is the reference for a paginated list plus a full-page editor; `features/users` for a table with modal forms; `features/uploads` for file upload.
+`features/examples` is the reference for a paginated list plus a full-page editor with a markdown field; `features/users` for a table with modal forms; `features/uploads` for file upload.
 
 ## API client
 - `api.get/post/put/patch/del<T>()` return the response's `data` field.
@@ -63,6 +63,13 @@ Import with the `@/` alias. A feature imports from `api`, `auth`, `layout` and `
 - Menus: `MAIN_NAV` (left) and `ADMIN_NAV` (right, super admins only) in `layout/nav.tsx`, each item with `roles`.
 - Guards only hide UI. The backend enforces access.
 - User pages: `/admin/super-admins` and `/admin/admins` (super admins), `/users` (admins and super admins). All three use `features/users/components/UserManagement.tsx`.
+
+## Markdown
+- `shared/components/markdown/MarkdownEditor` is a WYSIWYG editor whose value is markdown text. Use it as a controlled field: `<Form.Item name="body"><MarkdownEditor testId="..." /></Form.Item>`. It loads its code (about 600 kB) only when rendered.
+- `MarkdownViewer` renders markdown. Raw HTML in the content is shown as text, never executed.
+- `markdownToPlainText(md, max)` gives a short plain preview for table cells and cards.
+- The backend stores the markdown as plain text; there is nothing markdown-specific on the API side.
+- In E2E, the writing area is `getByTestId('<testId>').locator('[contenteditable="true"]')`.
 
 ## Crashes and unknown URLs
 - `AppShell` wraps the routed page in an `ErrorBoundary` keyed by path and a `Suspense`: a render error shows `CrashScreen` in the content area, and navigating elsewhere clears it. `App` has a second, full-screen boundary for everything else.

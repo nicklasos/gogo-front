@@ -72,6 +72,7 @@ The E2E run starts its own gogo API against the test database and its own Vite s
 - **User management**: super admins and admins from a right-side admin menu that only super admins see; users from the main menu
 - **Profile**: name, email, language and password
 - **Examples module**: a server-paginated list and an editor with an unsaved-changes guard, as the pattern to copy
+- **Markdown editor**: a WYSIWYG editor (headings, lists, quotes, links, phone and email links) that saves markdown, plus a safe viewer
 - **Files**: upload with type and size checks, thumbnails, paginated list
 - **Generated API types**: `make api-types` turns the backend's OpenAPI file into `src/api/schema.ts`
 - **Typed API client**: `ApiError`, server validation errors mapped onto form fields, translated error keys

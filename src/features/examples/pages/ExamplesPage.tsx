@@ -1,14 +1,17 @@
-import { Button, Card } from 'antd'
-import { AppstoreOutlined, PlusOutlined } from '@ant-design/icons'
+import { useState } from 'react'
+import { Button, Card, Modal, Tooltip } from 'antd'
+import { AppstoreOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { MarkdownViewer } from '@/shared/components/markdown/MarkdownViewer'
 import { PageHeader } from '@/shared/components/PageHeader'
 import { PageStack } from '@/shared/components/PageStack'
 import { ResponsiveTable } from '@/shared/components/ResponsiveTable'
 import { RowActions } from '@/shared/components/RowActions'
 import { usePageParams, useTablePagination } from '@/shared/hooks/usePageParams'
 import { formatDateTime } from '@/shared/utils/format'
+import { markdownToPlainText } from '@/shared/utils/markdownLinks'
 import message from '@/shared/utils/message'
 import { useDeleteExample, useExamples } from '../hooks'
 import type { Example } from '../types'
@@ -20,6 +23,7 @@ export default function ExamplesPage() {
   const examples = useExamples(paging.params)
   const remove = useDeleteExample()
   const pagination = useTablePagination(paging, examples.data)
+  const [viewing, setViewing] = useState<Example | null>(null)
 
   const onDelete = (example: Example) => remove.mutate(example.id, { onSuccess: () => message.success(t('examples.deleted')) })
 
@@ -30,12 +34,22 @@ export default function ExamplesPage() {
       onEdit={() => navigate(`/examples/${example.id}/edit`)}
       onDelete={() => onDelete(example)}
       deleteTitle={t('examples.deleteConfirm')}
-    />
+    >
+      <Tooltip title={t('examples.view')}>
+        <Button type="text" icon={<EyeOutlined />} size="small" onClick={() => setViewing(example)} data-testid={`view-example-button-${example.id}`} />
+      </Tooltip>
+    </RowActions>
   )
 
   const columns: ColumnsType<Example> = [
     { title: t('examples.titleField'), dataIndex: 'title', key: 'title', ellipsis: true },
-    { title: t('examples.descriptionField'), dataIndex: 'description', key: 'description', ellipsis: true },
+    {
+      title: t('examples.descriptionField'),
+      dataIndex: 'description',
+      key: 'description',
+      ellipsis: true,
+      render: (value: string) => markdownToPlainText(value, 120),
+    },
     {
       title: t('common.createdAt'),
       dataIndex: 'created_at',
@@ -43,7 +57,7 @@ export default function ExamplesPage() {
       width: 180,
       render: (value: string) => formatDateTime(value),
     },
-    { title: t('common.actions'), key: 'actions', width: 110, fixed: 'right', render: (_, example) => actions(example) },
+    { title: t('common.actions'), key: 'actions', width: 140, fixed: 'right', render: (_, example) => actions(example) },
   ]
 
   return (
@@ -69,7 +83,7 @@ export default function ExamplesPage() {
           cardTestId={(example) => `example-card-${example.id}`}
           renderCard={(example) => (
             <>
-              <div>{example.description}</div>
+              <div>{markdownToPlainText(example.description, 120)}</div>
               <div>
                 {t('common.createdAt')}: {formatDateTime(example.created_at)}
               </div>
@@ -78,6 +92,10 @@ export default function ExamplesPage() {
           cardActions={actions}
         />
       </Card>
+
+      <Modal open={viewing != null} title={viewing?.title} onCancel={() => setViewing(null)} footer={null} destroyOnHidden>
+        <MarkdownViewer content={viewing?.description} testId="example-view-content" />
+      </Modal>
     </PageStack>
   )
 }

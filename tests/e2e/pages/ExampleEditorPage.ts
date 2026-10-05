@@ -14,8 +14,9 @@ export class ExampleEditorPage extends BasePage {
     return this.page.getByTestId('example-title-input')
   }
 
+  /** The writing area of the markdown editor. */
   get descriptionInput(): Locator {
-    return this.page.getByTestId('example-description-input')
+    return this.page.getByTestId('example-description-input').locator('[contenteditable="true"]')
   }
 
   get saveButton(): Locator {

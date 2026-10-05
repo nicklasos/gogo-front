@@ -16,15 +16,15 @@ export default defineConfig(({ mode }) => {
     build: {
       rollupOptions: {
         output: {
-          // React and the small libraries change far less often than app code, so in their
-          // own files they stay cached across deploys. Ant Design is left to Rollup on
-          // purpose: forcing it into one file would make every page download the table,
-          // upload and picker code that only some pages use.
+          // React and the libraries every page needs change far less often than app code,
+          // so in their own files they stay cached across deploys. Everything else is left
+          // to Rollup on purpose: it keeps heavy code (the table, the markdown editor) in
+          // the chunk of the pages that use it, instead of in the first download.
           manualChunks(id) {
             if (!id.includes('node_modules')) return undefined
             if (/node_modules\/(react|react-dom|react-router|react-router-dom|scheduler)\//.test(id)) return 'vendor-react'
-            if (/node_modules\/(antd|@ant-design|rc-[^/]+|@rc-component|@babel|dayjs|classnames|@ctrl|@emotion|stylis|throttle-debounce|scroll-into-view-if-needed|compute-scroll-into-view|resize-observer-polyfill|copy-to-clipboard|toggle-selection|json2mq|string-convert)\//.test(id)) return undefined
-            return 'vendor'
+            if (/node_modules\/(@tanstack|zustand|i18next|react-i18next|i18next-browser-languagedetector)\//.test(id)) return 'vendor'
+            return undefined
           },
         },
       },

@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { Alert, Button, Card, Form, Input, Popconfirm, Space } from 'antd'
 import { useParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { MarkdownEditor } from '@/shared/components/markdown/MarkdownEditor'
 import { PageHeader } from '@/shared/components/PageHeader'
 import { PageError, PageLoading } from '@/shared/components/PageState'
 import { PageStack } from '@/shared/components/PageStack'
@@ -100,7 +101,7 @@ export default function ExampleEditorPage() {
           </Form.Item>
 
           <Form.Item name="description" label={t('examples.descriptionField')}>
-            <Input.TextArea data-testid="example-description-input" rows={4} />
+            <MarkdownEditor testId="example-description-input" height={220} />
           </Form.Item>
 
           <Space>

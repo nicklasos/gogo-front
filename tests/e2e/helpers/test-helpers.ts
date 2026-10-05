@@ -2,7 +2,7 @@ import type { Page } from '@playwright/test'
 import dbHelper, { type TestRole, type TestUser } from './db-helper'
 
 const TEST_BACKEND_PORT = process.env.TEST_BACKEND_PORT || '8184'
-const API_BASE = process.env.VITE_E2E_API_BASE_URL || `http://localhost:${TEST_BACKEND_PORT}/api/v1`
+export const API_BASE = process.env.VITE_E2E_API_BASE_URL || `http://localhost:${TEST_BACKEND_PORT}/api/v1`
 
 export const AUTH_STORAGE_KEY = 'gogo-auth'
 
