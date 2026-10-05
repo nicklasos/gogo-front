@@ -1,8 +1,8 @@
 import { test, expect } from '@playwright/test'
-import dbHelper from './helpers/db-helper'
-import { AUTH_STORAGE_KEY } from './helpers/test-helpers'
-import { AppShell } from './pages/AppShell'
-import { LoginPage } from './pages/LoginPage'
+import dbHelper from '../helpers/db-helper'
+import { AUTH_STORAGE_KEY } from '../helpers/test-helpers'
+import { AppShell } from '../pages/AppShell'
+import { LoginPage } from '../pages/LoginPage'
 
 test.describe('Authentication', () => {
   let loginPage: LoginPage

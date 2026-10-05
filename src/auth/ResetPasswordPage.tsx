@@ -1,10 +1,10 @@
+import { useState } from 'react'
 import { Alert, Button, Form, Input, Result, theme } from 'antd'
 import { LockOutlined } from '@ant-design/icons'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { isApiError } from '@/api/errors'
 import message from '@/shared/utils/message'
-import { errorMessage, splitFieldErrors } from '@/shared/utils/serverErrors'
+import { applyFormErrors } from '@/shared/utils/formErrors'
 import { AuthCard } from './AuthCard'
 import { useResetPassword } from './hooks'
 
@@ -20,6 +20,7 @@ export default function ResetPasswordPage() {
   const [search] = useSearchParams()
   const [form] = Form.useForm<Values>()
   const reset = useResetPassword()
+  const [serverError, setServerError] = useState<string | null>(null)
   const token = search.get('token') ?? ''
 
   const requestNewLink = (
@@ -41,7 +42,8 @@ export default function ResetPasswordPage() {
     )
   }
 
-  const onFinish = (values: Values) =>
+  const onFinish = (values: Values) => {
+    setServerError(null)
     reset.mutate(
       { token, password: values.password },
       {
@@ -49,23 +51,15 @@ export default function ResetPasswordPage() {
           message.success(t('auth.passwordResetDone'))
           navigate('/', { replace: true })
         },
-        onError: (error) => {
-          const { fields } = splitFieldErrors(t, error, ['password'])
-          if (fields.length) form.setFields(fields as Parameters<typeof form.setFields>[0])
-        },
+        onError: (error) => setServerError(applyFormErrors(form, t, error, ['password'])),
       }
     )
+  }
 
   return (
     <AuthCard subtitle={t('auth.resetPasswordTitle')}>
-      {reset.isError && !(isApiError(reset.error) && reset.error.fieldErrors) && (
-        <Alert
-          data-testid="reset-password-error"
-          type="error"
-          showIcon
-          message={errorMessage(t, reset.error, 'errors.network')}
-          style={{ marginBottom: themeToken.marginMD }}
-        />
+      {serverError && (
+        <Alert data-testid="reset-password-error" type="error" showIcon message={serverError} style={{ marginBottom: themeToken.marginMD }} />
       )}
 
       <Form form={form} layout="vertical" size="large" onFinish={onFinish} data-testid="reset-password-form">

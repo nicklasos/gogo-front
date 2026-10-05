@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
-import { ExampleEditorPage } from './pages/ExampleEditorPage'
-import { ExamplesPage } from './pages/ExamplesPage'
+import { ExampleEditorPage } from '../pages/ExampleEditorPage'
+import { ExamplesPage } from '../pages/ExamplesPage'
 
 test.describe('Unsaved changes', () => {
   test('prompts when leaving a dirty editor', async ({ page }) => {

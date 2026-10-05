@@ -16,7 +16,7 @@ What is worth adding to the skeleton next, in priority order. Each item names th
 | Images in the markdown editor | The editor has no image button; wire its image plugin to the uploads endpoint when a project needs it | — |
 | Image crop | The upload button and Files page are in; cropping needs the matching gogo endpoint | `smartcity-backoffice-front/src/components/ImageCropModal.jsx` |
 | File picker field for forms | Choose or upload a file from inside another form (an avatar, an attachment) | `smartcity-backoffice-front/src/components/ImageUpload.jsx` |
-| Debounced server-side search | `FilterBar` exists, but nothing feeds it into query params | `smartcity-backoffice-front/src/hooks/useDebouncedCallback.js` |
+| Server-side search and filters | A filter row above a table whose values go into the query params, debounced | `smartcity-backoffice-front/src/hooks/useDebouncedCallback.js` |
 | Theme tokens + dark mode | `app/theme.ts` is the single place; add an algorithm switch | `sytno/frontend/src/app/theme.ts` for a full token set |
 | Registration page | The API can open `/auth/register`; there is no page for it | — |
 | Role editing | Roles are fixed when an account is created; needs the matching gogo endpoint | — |

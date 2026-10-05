@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
-import { dbHelper, loginAs } from './helpers/test-helpers'
-import { ExamplesPage } from './pages/ExamplesPage'
+import { dbHelper, loginAs } from '../helpers/test-helpers'
+import { ExamplesPage } from '../pages/ExamplesPage'
 
 test.describe('Examples list paging', () => {
   test('pages on the server and keeps the page in the URL', async ({ page }) => {

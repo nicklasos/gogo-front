@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
-import { dbHelper, loginAs } from './helpers/test-helpers'
-import { AppShell } from './pages/AppShell'
+import { dbHelper, loginAs } from '../helpers/test-helpers'
+import { AppShell } from '../pages/AppShell'
 
 test.describe('Email verification', () => {
   test('a signed-in user confirms their email from the link', async ({ page }) => {

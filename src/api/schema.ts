@@ -37,12 +37,6 @@ export interface InternalAuthLoginResponse {
   user: InternalAuthUserResponse;
 }
 
-export interface InternalAuthMessageResponse {
-  data: {
-    message: string;
-  };
-}
-
 export interface InternalAuthRefreshTokenDataResponse {
   data: InternalAuthRefreshTokenResponse;
 }
@@ -124,12 +118,6 @@ export interface InternalExampleExampleResponse {
   user_id: number;
 }
 
-export interface InternalExampleMessageResponse {
-  data: {
-    message: string;
-  };
-}
-
 export interface InternalExamplePaginatedExamplesResponse {
   data: InternalExampleExampleResponse[];
   pagination: InternalPaginationMeta;
@@ -140,17 +128,19 @@ export interface InternalExampleUpdateExampleRequest {
   title: string;
 }
 
+export interface InternalMessageData {
+  message: string;
+}
+
+export interface InternalMessageResponse {
+  data: InternalMessageData;
+}
+
 export interface InternalPaginationMeta {
   current_page: number;
   last_page: number;
   per_page: number;
   total: number;
-}
-
-export interface InternalUploadsMessageResponse {
-  data: {
-    message: string;
-  };
 }
 
 export interface InternalUploadsPaginatedUploadsResponse {
@@ -182,12 +172,6 @@ export interface InternalUsersCreateUserRequest {
   /** @minLength 8 */
   password: string;
   role: "super-admin" | "admin" | "user";
-}
-
-export interface InternalUsersMessageResponse {
-  data: {
-    message: string;
-  };
 }
 
 export interface InternalUsersPaginatedUsersResponse {

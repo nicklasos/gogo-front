@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
-import dbHelper from './helpers/db-helper'
-import { AppShell } from './pages/AppShell'
-import { LoginPage } from './pages/LoginPage'
+import dbHelper from '../helpers/db-helper'
+import { AppShell } from '../pages/AppShell'
+import { LoginPage } from '../pages/LoginPage'
 
 test.describe('Password reset', () => {
   test('asks for a link without revealing whether the email exists', async ({ page }) => {

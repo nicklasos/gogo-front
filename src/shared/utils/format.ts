@@ -5,9 +5,6 @@
  */
 
 export const EMPTY = '—'
-/** Display format for DatePicker and dates. */
-export const DATE_FORMAT = 'DD.MM.YYYY'
-
 type Lang = 'uk' | 'en'
 
 const LOCALES: Record<Lang, string> = { uk: 'uk-UA', en: 'en-GB' }
@@ -25,13 +22,6 @@ export function formatNumber(value: number | null | undefined, digits = 2): stri
   return new Intl.NumberFormat(LOCALES[lang], { maximumFractionDigits: digits }).format(value)
 }
 
-/** "2026-09-11" or an RFC3339 timestamp → "11.09.2026" (the date part only, no timezone shift). */
-export function formatDate(value: string | null | undefined): string {
-  if (!value) return EMPTY
-  const [y, m, d] = value.slice(0, 10).split('-')
-  return y && m && d ? `${d}.${m}.${y}` : String(value)
-}
-
 /** A timestamp in local time: "11.09.2026 14:05". */
 export function formatDateTime(value: string | null | undefined): string {
   if (!value) return EMPTY
@@ -39,12 +29,6 @@ export function formatDateTime(value: string | null | undefined): string {
   if (Number.isNaN(date.getTime())) return String(value)
   const pad = (n: number) => String(n).padStart(2, '0')
   return `${pad(date.getDate())}.${pad(date.getMonth() + 1)}.${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}`
-}
-
-/** Local calendar date as YYYY-MM-DD (what the API expects for dates). */
-export function isoDate(date = new Date()): string {
-  const pad = (n: number) => String(n).padStart(2, '0')
-  return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 }
 
 /** A byte count in binary units: "512 B", "1.5 KB", "3.2 MB". */

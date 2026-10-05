@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
-import { loginAs } from './helpers/test-helpers'
-import { AppShell } from './pages/AppShell'
-import { LoginPage } from './pages/LoginPage'
+import { loginAs } from '../helpers/test-helpers'
+import { AppShell } from '../pages/AppShell'
+import { LoginPage } from '../pages/LoginPage'
 
 test.describe('Profile', () => {
   test('updates the name', async ({ page }) => {

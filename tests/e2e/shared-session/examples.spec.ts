@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test'
-import { API_BASE, AUTH_STORAGE_KEY } from './helpers/test-helpers'
-import { ExampleEditorPage } from './pages/ExampleEditorPage'
-import { ExamplesPage } from './pages/ExamplesPage'
+import { API_BASE, AUTH_STORAGE_KEY } from '../helpers/test-helpers'
+import { ExampleEditorPage } from '../pages/ExampleEditorPage'
+import { ExamplesPage } from '../pages/ExamplesPage'
 
 test.describe('Examples CRUD', () => {
   test('creates, edits, and deletes an example', async ({ page }) => {

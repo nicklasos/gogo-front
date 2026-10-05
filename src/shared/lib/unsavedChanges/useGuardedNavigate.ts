@@ -16,15 +16,3 @@ export function useGuardedNavigate() {
     [navigate, isDirty, t]
   )
 }
-
-export function useGuardedAction() {
-  const { isDirty } = useUnsavedChangesContext()
-  const { t } = useTranslation()
-
-  return useCallback(
-    (action: () => void) => {
-      confirmUnsavedNavigation(isDirty, t, action)
-    },
-    [isDirty, t]
-  )
-}

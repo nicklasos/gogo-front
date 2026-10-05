@@ -8,7 +8,7 @@ import { PageError, PageLoading } from '@/shared/components/PageState'
 import { PageStack } from '@/shared/components/PageStack'
 import { useGuardedNavigate, useUnsavedChangesContext, useUnsavedChangesGuard } from '@/shared/lib/unsavedChanges'
 import message from '@/shared/utils/message'
-import { errorMessage, splitFieldErrors } from '@/shared/utils/serverErrors'
+import { applyFormErrors } from '@/shared/utils/formErrors'
 import { useDeleteExample, useExample, useSaveExample } from '../hooks'
 import type { ExampleRequest } from '../types'
 
@@ -22,7 +22,7 @@ export default function ExampleEditorPage() {
   const { setDirty: setGuardDirty } = useUnsavedChangesContext()
   const [form] = Form.useForm<ExampleRequest>()
   const [dirty, setDirty] = useState(false)
-  const [serverError, setServerError] = useState<string[] | null>(null)
+  const [serverError, setServerError] = useState<string | null>(null)
   const example = useExample(id)
   const save = useSaveExample()
   const remove = useDeleteExample()
@@ -54,11 +54,7 @@ export default function ExampleEditorPage() {
           message.success(t('examples.saved'))
           leave()
         },
-        onError: (error) => {
-          const { fields, other } = splitFieldErrors(t, error, FORM_FIELDS)
-          if (fields.length) form.setFields(fields as Parameters<typeof form.setFields>[0])
-          setServerError(other.length ? other : fields.length ? null : [errorMessage(t, error)])
-        },
+        onError: (error) => setServerError(applyFormErrors(form, t, error, FORM_FIELDS)),
       }
     )
   }
@@ -83,7 +79,7 @@ export default function ExampleEditorPage() {
             data-testid="example-editor-error"
             type="error"
             showIcon
-            message={serverError.join(' ')}
+            message={serverError}
             style={{ marginBottom: 16 }}
           />
         )}

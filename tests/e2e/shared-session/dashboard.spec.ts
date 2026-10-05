@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test'
-import { DashboardPage } from './pages/DashboardPage'
+import { DashboardPage } from '../pages/DashboardPage'
 
 test.describe('Dashboard', () => {
   test('shows dashboard for authenticated user', async ({ page }) => {

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
-import { loginAs } from './helpers/test-helpers'
-import { AppShell } from './pages/AppShell'
+import { loginAs } from '../helpers/test-helpers'
+import { AppShell } from '../pages/AppShell'
 
 // The smallest valid PNG: one transparent pixel.
 const PNG = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg==', 'base64')

@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test'
-import { uniqueEmail } from './helpers/db-helper'
-import { dbHelper, loginAs } from './helpers/test-helpers'
-import { AppShell } from './pages/AppShell'
-import { LoginPage } from './pages/LoginPage'
-import { UserManagementPage } from './pages/UserManagementPage'
+import { uniqueEmail } from '../helpers/db-helper'
+import { dbHelper, loginAs } from '../helpers/test-helpers'
+import { AppShell } from '../pages/AppShell'
+import { LoginPage } from '../pages/LoginPage'
+import { UserManagementPage } from '../pages/UserManagementPage'
 
 test.describe('User management as a super admin', () => {
   test('creates a super admin from the right-side menu', async ({ page }) => {

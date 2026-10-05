@@ -13,16 +13,3 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
-
-@media (max-width: 767px) {
-  .filter-bar-item {
-    max-width: none !important;
-  }
-}
-
-.filter-bar-item > .ant-select,
-.filter-bar-item > .ant-input-search,
-.filter-bar-item > .ant-input-affix-wrapper,
-.filter-bar-item > .ant-segmented {
-  width: 100%;
-}

@@ -3,7 +3,6 @@ import { Button, Card, Form, Input, Tooltip } from 'antd'
 import { KeyOutlined, PlusOutlined } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
 import { useTranslation } from 'react-i18next'
-import { isApiError } from '@/api/errors'
 import { useCurrentUser } from '@/auth/authStore'
 import { RoleTags } from '@/auth/RoleTags'
 import type { Role } from '@/auth/roles'
@@ -17,12 +16,12 @@ import { usePageParams, useTablePagination } from '@/shared/hooks/usePageParams'
 import { formatDateTime } from '@/shared/utils/format'
 import message from '@/shared/utils/message'
 import { generatePassword } from '@/shared/utils/password'
-import { errorMessage, splitFieldErrors } from '@/shared/utils/serverErrors'
+import { applyFormErrors } from '@/shared/utils/formErrors'
 import { useDeleteUser, useSaveUser, useSetUserPassword, useUsers } from '../hooks'
 import type { ManagedUser, UserFormValues } from '../types'
 
 const FORM_FIELDS = ['name', 'email', 'password'] as const
-const EMAIL_TAKEN = 'auth.user_exists'
+const KEY_FIELDS = { 'auth.user_exists': 'email' }
 
 interface Props {
   /** The role this page lists and assigns to the accounts it creates. */
@@ -75,10 +74,8 @@ export function UserManagement({ role, icon }: Props) {
           closeModal()
         },
         onError: (error) => {
-          const { fields } = splitFieldErrors(t, error, FORM_FIELDS)
-          if (isApiError(error) && error.errorKey === EMAIL_TAKEN) fields.push({ name: 'email', errors: [errorMessage(t, error)] })
-          if (fields.length) form.setFields(fields as Parameters<typeof form.setFields>[0])
-          else message.error(errorMessage(t, error))
+          const unplaced = applyFormErrors(form, t, error, FORM_FIELDS, { keyFields: KEY_FIELDS })
+          if (unplaced) message.error(unplaced)
         },
       }
     )

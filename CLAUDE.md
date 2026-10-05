@@ -38,7 +38,7 @@ Import with the `@/` alias. A feature imports from `api`, `auth`, `layout` and `
 4. Add the keys to `api/queryKeys.ts`.
 5. `features/<module>/pages/*.tsx` — pages call hooks only, never `api` directly.
 6. Add the route to `app/router.tsx` as a `lazy(() => import(...))` page (default export) and the menu entry to `layout/nav.tsx`.
-7. Add locale keys to both `en` and `uk`.
+7. Add locale keys to both `en` and `uk`; a unit test fails when the two files have different keys.
 
 `features/examples` is the reference for a paginated list plus a full-page editor with a markdown field; `features/users` for a table with modal forms; `features/uploads` for file upload.
 
@@ -52,7 +52,7 @@ Import with the `@/` alias. A feature imports from `api`, `auth`, `layout` and `
 ## Errors
 - Queries and mutations show a toast from the global handler in `app/queryClient.ts`. Pass `meta: { silent: true }` when the page shows the error itself.
 - The backend sends `error_key`; `shared/utils/serverErrors.ts` translates it through `errors.<key>` in the locales. Add a locale entry for every new backend key.
-- Validation errors arrive as `errors: { field: [keys] }`. Put them on the form with `splitFieldErrors(t, error, FIELDS)` + `form.setFields(...)`.
+- Validation errors arrive as `errors: { field: [keys] }`. In a mutation's `onError`, `applyFormErrors(form, t, error, FIELDS)` shows them under their fields and returns the message for anything it could not place (or null).
 
 ## Pagination
 `usePageParams()` keeps `page` / `page_size` in the URL; `useTablePagination(paging, query.data)` turns the response into the `pagination` prop of `ResponsiveTable`. Without that prop `ResponsiveTable` pages in the browser.
@@ -100,9 +100,9 @@ make build
 ```
 
 ## E2E notes
-- `chromium` project: specs that share one signed-in plain user (`auth.setup.ts` writes `.auth/user.json`).
-- `chromium-own-session` project: specs that sign in themselves with `loginAs(page, role)`.
-- A new spec file must be added to a `testMatch` in `playwright.config.ts`.
+- `tests/e2e/shared-session/`: specs that share one signed-in plain user (`auth.setup.ts` writes `.auth/user.json`).
+- `tests/e2e/own-session/`: specs that sign in themselves with `loginAs(page, role)`, or test the signed-out pages.
+- A spec runs in the project of the folder it is in; nothing has to be registered.
 - Users are seeded straight into the test database (`helpers/db-helper.ts`); emails start with `e2e-` so cleanup finds them. Use `uniqueEmail()` for users created through the UI.
 - The API is started with `AUTH_RATE_LIMIT=false` and `APP_DEBUG=true` (no throttling, mail only logged).
 - Emailed links cannot be read back (only a hash is stored): plant a token with `dbHelper.createEmailToken(userId, purpose)`.

@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test'
-import { AppShell } from './pages/AppShell'
-import { ExamplesPage } from './pages/ExamplesPage'
+import { AppShell } from '../pages/AppShell'
+import { ExamplesPage } from '../pages/ExamplesPage'
 
 test.describe('Unknown URLs', () => {
   test('show a not-found page inside the app', async ({ page }) => {

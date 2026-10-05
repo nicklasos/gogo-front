@@ -28,26 +28,27 @@ export default defineConfig({
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',
   },
+  // A spec belongs to a project by the folder it is in; there is no list to keep in sync.
   projects: [
     {
       name: 'setup',
       testMatch: /auth\.setup\.ts/,
     },
     {
-      // Specs that sign in themselves, as a fresh user or with a specific role.
-      name: 'chromium-own-session',
-      use: { ...devices['Desktop Chrome'] },
-      testMatch: /(?:^|\/)(auth|password-reset|email-verification|profile|user-management|examples-list|files)\.spec\.ts$/,
-    },
-    {
       // Specs that share one signed-in plain user.
-      name: 'chromium',
+      name: 'shared-session',
+      testDir: './tests/e2e/shared-session',
       use: {
         ...devices['Desktop Chrome'],
         storageState: path.join(authDir, 'user.json'),
       },
       dependencies: ['setup'],
-      testMatch: /(?:^|\/)(dashboard|examples|unsaved-changes|resilience)\.spec\.ts$/,
+    },
+    {
+      // Specs that sign in themselves, as a fresh user or with a specific role.
+      name: 'own-session',
+      testDir: './tests/e2e/own-session',
+      use: { ...devices['Desktop Chrome'] },
     },
   ],
   webServer: [
