@@ -1,17 +1,5 @@
-import type { ID } from '@/api/types'
+import type { InternalAuthLoginResponse, InternalAuthRefreshTokenResponse, InternalAuthUserResponse } from '@/api/schema'
 
-export interface User {
-  id: ID
-  email: string
-  name: string
-  roles: string[]
-}
-
-export interface AuthTokens {
-  access_token: string
-  refresh_token: string
-}
-
-export interface LoginResponse extends AuthTokens {
-  user: User
-}
+export type User = InternalAuthUserResponse
+export type AuthTokens = InternalAuthRefreshTokenResponse
+export type LoginResponse = InternalAuthLoginResponse

@@ -19,7 +19,8 @@
     "copied": "Copied to clipboard",
     "search": "Search",
     "notFound": "Not found",
-    "retry": "Try again"
+    "retry": "Try again",
+    "backHome": "Back to the dashboard"
   },
   "auth": {
     "welcome": "Sign in to continue",
@@ -32,7 +33,28 @@
     "passwordRequired": "Password is required",
     "invalidCredentials": "Invalid email or password",
     "accessDenied": "Access denied",
-    "noPermission": "You don't have permission to open this page."
+    "noPermission": "You don't have permission to open this page.",
+    "forgotPassword": "Forgot password?",
+    "forgotPasswordTitle": "Password reset",
+    "forgotPasswordHint": "Enter your email and we will send you a link to set a new password.",
+    "sendResetLink": "Send reset link",
+    "resetLinkSentTitle": "Check your inbox",
+    "resetLinkSent": "If that email belongs to an account, a link to reset the password is on its way.",
+    "backToLogin": "Back to sign in",
+    "resetPasswordTitle": "Choose a new password",
+    "setNewPassword": "Set new password",
+    "passwordResetDone": "Password updated. Sign in with the new one.",
+    "requestNewLink": "Request a new link",
+    "emailVerified": "Email confirmed",
+    "verifyEmailRetryHint": "You can request a new link from your profile.",
+    "continue": "Continue",
+    "tooManyAttempts": {
+      "minute": "Too many attempts. Try again in a minute.",
+      "minutes_one": "Too many attempts. Try again in {{count}} minute.",
+      "minutes_other": "Too many attempts. Try again in {{count}} minutes.",
+      "hours_one": "Too many attempts. Try again in {{count}} hour.",
+      "hours_other": "Too many attempts. Try again in {{count}} hours."
+    }
   },
   "navigation": {
     "dashboard": "Dashboard",
@@ -41,13 +63,21 @@
     "profile": "Profile",
     "adminMenu": "Admin menu",
     "superAdmins": "Super admins",
-    "admins": "Admins"
+    "admins": "Admins",
+    "files": "Files"
   },
   "enums": {
     "role": {
       "super-admin": "Super admin",
       "admin": "Admin",
       "user": "User"
+    },
+    "uploadType": {
+      "image": "Image",
+      "video": "Video",
+      "audio": "Audio",
+      "document": "Document",
+      "other": "Other"
     }
   },
   "dashboard": {
@@ -113,7 +143,11 @@
     "newPassword": "New password",
     "confirmPassword": "Confirm password",
     "passwordMismatch": "Passwords do not match",
-    "passwordChanged": "Password changed"
+    "passwordChanged": "Password changed",
+    "emailNotVerified": "Your email is not confirmed",
+    "emailNotVerifiedHint": "We sent a confirmation link to {{email}}.",
+    "resendVerification": "Send again",
+    "verificationSent": "Confirmation email sent"
   },
   "messages": {
     "unsavedChangesTitle": "Unsaved changes",
@@ -147,6 +181,31 @@
     "validation.invalid": "Invalid value",
     "validation.type_mismatch": "Wrong value type",
     "validation.body_invalid": "Invalid request",
-    "validation.title.required": "Title is required"
+    "validation.title.required": "Title is required",
+    "network": "Could not reach the server. Check your connection and try again.",
+    "auth.too_many_requests": "Too many attempts. Try again later.",
+    "auth.registration_disabled": "Registration is disabled",
+    "auth.invalid_or_expired_link": "This link is invalid or has expired",
+    "auth.email_already_verified": "Your email is already confirmed",
+    "uploads.type_not_allowed": "This file type is not allowed",
+    "uploads.too_large": "The file is too large",
+    "uploads.empty": "The file is empty",
+    "validation.error": "Invalid request",
+    "crashTitle": "This page ran into a problem",
+    "crashHint": "The rest of the app still works. Try again, or reload the page.",
+    "reloadPage": "Reload page"
+  },
+  "uploads": {
+    "title": "Files",
+    "hint": "Images, documents, audio and video up to {{max}} MB.",
+    "upload": "Upload",
+    "uploaded": "File uploaded",
+    "deleted": "File deleted",
+    "deleteConfirm": "Delete this file?",
+    "empty": "No files yet",
+    "name": "Name",
+    "type": "Type",
+    "size": "Size",
+    "tooLarge": "The file is larger than {{max}} MB"
   }
 }

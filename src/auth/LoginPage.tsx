@@ -1,123 +1,84 @@
 import { useEffect } from 'react'
-import { Form, Input, Button, Card, Typography, Alert, Row, Col, Grid, theme } from 'antd'
-import { UserOutlined, LockOutlined } from '@ant-design/icons'
+import { Alert, Button, Form, Input, theme } from 'antd'
+import { LockOutlined, UserOutlined } from '@ant-design/icons'
+import { Link } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { translateServerError } from '@/shared/utils/serverErrors'
-import { useAuthStore } from './authStore'
+import { AuthCard } from './AuthCard'
+import { useAuthStore, type AuthError } from './authStore'
+import { retryAfterMessage } from './retryAfter'
 
-const { Title, Text } = Typography
-const { useBreakpoint } = Grid
-
-function LoginPage() {
+export default function LoginPage() {
   const [form] = Form.useForm()
   const { t } = useTranslation()
   const { login, loading, error, clearError } = useAuthStore()
-  const screens = useBreakpoint()
-  const isMobile = !screens.md
   const { token } = theme.useToken()
 
   useEffect(() => {
     clearError()
   }, [clearError])
 
-  const onFinish = async (values: { email: string; password: string }) => {
-    await login(values.email, values.password)
+  const describe = (err: AuthError): string => {
+    if (err.type === 'rate_limit') return retryAfterMessage(t, err.retryAfterSeconds)
+    if (err.type === 'raw') return t('errors.network')
+    return translateServerError(t, err.errorKey, err.message || t('auth.invalidCredentials'))
   }
 
-  const alertMessage = error
-    ? error.type === 'raw'
-      ? error.message
-      : translateServerError(t, error.errorKey, error.message || t('auth.invalidCredentials'))
-    : null
-
   return (
-    <div
-      style={{
-        minHeight: '100vh',
-        background: token.colorBgLayout,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: token.paddingLG,
-      }}
-    >
-      <Row justify="center" style={{ width: '100%', maxWidth: isMobile ? 360 : 400 }}>
-        <Col span={24}>
-          <Card>
-            <div style={{ textAlign: 'center', marginBottom: token.marginLG }}>
-              <img src="/favicon.svg" alt="" width={48} height={48} style={{ marginBottom: token.marginSM }} />
-              <Title level={isMobile ? 3 : 2} style={{ marginBottom: token.marginXS }}>
-                {t('common.appName')}
-              </Title>
-              <Text type="secondary">{t('auth.welcome')}</Text>
-            </div>
+    <AuthCard subtitle={t('auth.welcome')}>
+      {error && (
+        <Alert
+          data-testid="login-error-alert"
+          data-error-type={error.type}
+          message={describe(error)}
+          type={error.type === 'rate_limit' ? 'warning' : 'error'}
+          showIcon
+          style={{ marginBottom: token.marginMD }}
+          closable
+          onClose={clearError}
+        />
+      )}
 
-            {alertMessage && (
-              <Alert
-                data-testid="login-error-alert"
-                message={alertMessage}
-                type="error"
-                showIcon
-                style={{ marginBottom: token.marginMD }}
-                closable
-                onClose={clearError}
-              />
-            )}
+      <Form
+        form={form}
+        name="login"
+        onFinish={(values: { email: string; password: string }) => login(values.email, values.password)}
+        layout="vertical"
+        size="large"
+        data-testid="login-form"
+      >
+        <Form.Item
+          name="email"
+          label={t('auth.email')}
+          rules={[
+            { required: true, message: t('auth.emailRequired') },
+            { type: 'email', message: t('auth.emailInvalid') },
+          ]}
+        >
+          <Input data-testid="login-email-input" prefix={<UserOutlined />} placeholder="user@example.com" autoComplete="email" />
+        </Form.Item>
 
-            <Form
-              form={form}
-              name="login"
-              onFinish={onFinish}
-              layout="vertical"
-              size={isMobile ? 'middle' : 'large'}
-              data-testid="login-form"
-            >
-              <Form.Item
-                name="email"
-                label={t('auth.email')}
-                rules={[
-                  { required: true, message: t('auth.emailRequired') },
-                  { type: 'email', message: t('auth.emailInvalid') },
-                ]}
-              >
-                <Input
-                  data-testid="login-email-input"
-                  prefix={<UserOutlined />}
-                  placeholder="user@example.com"
-                  autoComplete="email"
-                />
-              </Form.Item>
+        <Form.Item name="password" label={t('auth.password')} rules={[{ required: true, message: t('auth.passwordRequired') }]}>
+          <Input.Password
+            data-testid="login-password-input"
+            prefix={<LockOutlined />}
+            placeholder={t('auth.password')}
+            autoComplete="current-password"
+          />
+        </Form.Item>
 
-              <Form.Item
-                name="password"
-                label={t('auth.password')}
-                rules={[{ required: true, message: t('auth.passwordRequired') }]}
-              >
-                <Input.Password
-                  data-testid="login-password-input"
-                  prefix={<LockOutlined />}
-                  placeholder={t('auth.password')}
-                  autoComplete="current-password"
-                />
-              </Form.Item>
+        <Form.Item style={{ marginBottom: token.marginSM }}>
+          <Button data-testid="login-button" type="primary" htmlType="submit" loading={loading} block>
+            {t('auth.loginButton')}
+          </Button>
+        </Form.Item>
 
-              <Form.Item style={{ marginBottom: 0 }}>
-                <Button
-                  data-testid="login-button"
-                  type="primary"
-                  htmlType="submit"
-                  loading={loading}
-                  block
-                >
-                  {loading ? t('common.loading') : t('auth.loginButton')}
-                </Button>
-              </Form.Item>
-            </Form>
-          </Card>
-        </Col>
-      </Row>
-    </div>
+        <div style={{ textAlign: 'center' }}>
+          <Link to="/forgot-password" data-testid="forgot-password-link">
+            {t('auth.forgotPassword')}
+          </Link>
+        </div>
+      </Form>
+    </AuthCard>
   )
 }
-
-export default LoginPage

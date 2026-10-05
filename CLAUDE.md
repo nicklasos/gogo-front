@@ -32,15 +32,15 @@ tests/e2e/   specs, pages/ (page objects), helpers/
 Import with the `@/` alias. A feature imports from `api`, `auth`, `layout` and `shared`, never from another feature.
 
 ## Adding a module
-1. `features/<module>/types.ts` — entity and request types, hand-written from the backend module's `types.go` (snake_case fields, as in the JSON).
+1. Run `make swagger` in gogo and `make api-types` here, then give the generated types short names in `features/<module>/types.ts` (`export type Example = InternalExampleExampleResponse`). Do not hand-write a type the backend already describes, and never edit `src/api/schema.ts`.
 2. `features/<module>/api.ts` — an `xApi` object of calls built on `api` from `@/api/client`.
 3. `features/<module>/hooks.ts` — `useX` queries, `useSaveX({ id?, body })`, `useDeleteX`. Mutations invalidate a key prefix from `qk`.
 4. Add the keys to `api/queryKeys.ts`.
 5. `features/<module>/pages/*.tsx` — pages call hooks only, never `api` directly.
-6. Add the route to `app/router.tsx` and the menu entry to `layout/nav.tsx`.
+6. Add the route to `app/router.tsx` as a `lazy(() => import(...))` page (default export) and the menu entry to `layout/nav.tsx`.
 7. Add locale keys to both `en` and `uk`.
 
-`features/examples` is the reference for a paginated list plus a full-page editor; `features/users` for a table with modal forms.
+`features/examples` is the reference for a paginated list plus a full-page editor; `features/users` for a table with modal forms; `features/uploads` for file upload.
 
 ## API client
 - `api.get/post/put/patch/del<T>()` return the response's `data` field.
@@ -64,6 +64,14 @@ Import with the `@/` alias. A feature imports from `api`, `auth`, `layout` and `
 - Guards only hide UI. The backend enforces access.
 - User pages: `/admin/super-admins` and `/admin/admins` (super admins), `/users` (admins and super admins). All three use `features/users/components/UserManagement.tsx`.
 
+## Crashes and unknown URLs
+- `AppShell` wraps the routed page in an `ErrorBoundary` keyed by path and a `Suspense`: a render error shows `CrashScreen` in the content area, and navigating elsewhere clears it. `App` has a second, full-screen boundary for everything else.
+- A boundary only catches render errors. Failed requests are handled by the query layer (see Errors).
+- An unmatched URL renders `NotFoundPage` inside the shell; do not redirect unknown paths.
+
+## Signed-out pages
+`app/router.tsx` has two route trees: `PublicRoutes` (login, forgot/reset password, verify email) and `AppRoutes` (everything inside `AppShell`). Signed-out pages sit in `auth/AuthCard`. Any other URL shows the login form in place, so signing in lands on the page that was asked for.
+
 ## Styling
 Use AntD components and tokens (`theme.useToken()`); no literal colours or ad-hoc CSS. Branding lives in `app/theme.ts`. Page skeleton: `PageStack` > `Card` > `PageHeader` + content.
 
@@ -80,6 +88,7 @@ make lint         # typecheck + eslint
 make test-unit    # node:test
 make test-e2e     # Playwright: starts gogo --test-db on 8184 and Vite on 5175
 make test         # all of the above
+make api-types    # regenerate src/api/schema.ts from ../gogo/docs/swagger.json
 make build
 ```
 
@@ -88,6 +97,8 @@ make build
 - `chromium-own-session` project: specs that sign in themselves with `loginAs(page, role)`.
 - A new spec file must be added to a `testMatch` in `playwright.config.ts`.
 - Users are seeded straight into the test database (`helpers/db-helper.ts`); emails start with `e2e-` so cleanup finds them. Use `uniqueEmail()` for users created through the UI.
+- The API is started with `AUTH_RATE_LIMIT=false` and `APP_DEBUG=true` (no throttling, mail only logged).
+- Emailed links cannot be read back (only a hash is stored): plant a token with `dbHelper.createEmailToken(userId, purpose)`.
 - Requires `TEST_DATABASE_URL` (database name ending in `_test`) in `.env`.
 
 ## Don’t

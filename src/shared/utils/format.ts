@@ -46,3 +46,16 @@ export function isoDate(date = new Date()): string {
   const pad = (n: number) => String(n).padStart(2, '0')
   return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}`
 }
+
+/** A byte count in binary units: "512 B", "1.5 KB", "3.2 MB". */
+export function formatBytes(bytes: number | null | undefined): string {
+  if (missing(bytes)) return EMPTY
+  const units = ['B', 'KB', 'MB', 'GB', 'TB']
+  let value = bytes
+  let unit = 0
+  while (value >= 1024 && unit < units.length - 1) {
+    value /= 1024
+    unit += 1
+  }
+  return `${formatNumber(value, unit === 0 ? 0 : 1)} ${units[unit]}`
+}

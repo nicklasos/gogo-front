@@ -10,6 +10,10 @@ export const qk = {
     list: (params: PageParams) => ['examples', 'list', params] as const,
     detail: (id: ID) => ['examples', 'detail', id] as const,
   },
+  uploads: {
+    all: ['uploads'] as const,
+    list: (params: PageParams) => ['uploads', 'list', params] as const,
+  },
   users: {
     all: ['users'] as const,
     list: (role: string, params: PageParams) => ['users', 'list', role, params] as const,

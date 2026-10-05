@@ -37,7 +37,7 @@ export default defineConfig({
       // Specs that sign in themselves, as a fresh user or with a specific role.
       name: 'chromium-own-session',
       use: { ...devices['Desktop Chrome'] },
-      testMatch: /(?:^|\/)(auth|profile|user-management|examples-list)\.spec\.ts$/,
+      testMatch: /(?:^|\/)(auth|password-reset|email-verification|profile|user-management|examples-list|files)\.spec\.ts$/,
     },
     {
       // Specs that share one signed-in plain user.
@@ -47,12 +47,13 @@ export default defineConfig({
         storageState: path.join(authDir, 'user.json'),
       },
       dependencies: ['setup'],
-      testMatch: /(?:^|\/)(dashboard|examples|unsaved-changes)\.spec\.ts$/,
+      testMatch: /(?:^|\/)(dashboard|examples|unsaved-changes|resilience)\.spec\.ts$/,
     },
   ],
   webServer: [
     {
-      command: `cd ../gogo && set -a && . ./.env && set +a && go run ./cmd/api --port=${TEST_BACKEND_PORT} --test-db`,
+      // Debug mode logs mail instead of sending it; the login throttle would trip on a suite that signs in dozens of times.
+      command: `cd ../gogo && set -a && . ./.env && set +a && APP_DEBUG=true AUTH_RATE_LIMIT=false go run ./cmd/api --port=${TEST_BACKEND_PORT} --test-db`,
       url: `http://localhost:${TEST_BACKEND_PORT}/health`,
       reuseExistingServer: !process.env.CI,
       timeout: 120 * 1000,

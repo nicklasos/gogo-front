@@ -1,4 +1,4 @@
-.PHONY: help install dev build preview typecheck lint lint-fix test test-unit test-e2e test-e2e-ui test-e2e-headed clean playwright-browsers env-check db-test-setup
+.PHONY: help install dev build preview api-types api-types-check typecheck lint lint-fix test test-unit test-e2e test-e2e-ui test-e2e-headed clean playwright-browsers env-check db-test-setup
 
 help: ## Show available commands
 	@echo "Gogo Front - Available Commands:"
@@ -16,6 +16,12 @@ build: ## Typecheck and production build
 
 preview: ## Preview production build
 	npm run preview
+
+api-types: ## Regenerate src/api/schema.ts from ../gogo/docs/swagger.json (run `make swagger` in gogo first)
+	npm run api:types
+
+api-types-check: api-types ## Fail when src/api/schema.ts is out of date with the gogo swagger file
+	git diff --exit-code -- src/api/schema.ts
 
 typecheck: ## TypeScript check (src, configs and E2E)
 	npm run typecheck

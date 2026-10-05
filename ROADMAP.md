@@ -6,21 +6,18 @@ What is worth adding to the skeleton next, in priority order. Each item names th
 
 | Item | Why | Port from |
 |---|---|---|
-| Error boundary + a real 404 page | A render error blanks the app; unknown URLs silently redirect home | `shared/components/PageState.tsx` already has the visuals |
-| Lazy routes | One bundle of ~1 MB today; `React.lazy` per feature page in `app/router.tsx` | — |
-| CI | Typecheck, lint, unit and Playwright on every push | — |
-| Generated API types | Types are hand-copied from Go structs; generate them from gogo's OpenAPI output | — |
+| Smaller first load | Pages are lazy and React is cached separately, but the first load is still ~1.1 MB (about 350 kB gzipped), nearly all of it the Ant Design parts the shell and login form use | — |
 | Page-error collector in E2E | Fails a test on console errors and uncaught exceptions | `smartcity-backoffice-front/tests/e2e/helpers/pageErrors.js` |
 
 ## P2
 
 | Item | Why | Port from |
 |---|---|---|
-| Image upload kit | Upload hook, upload component, optional crop modal; do it after the gogo uploads hardening | `smartcity-backoffice-front/src/hooks/useImageUpload.js`, `src/components/ImageUpload.jsx`, `ImageCropModal.jsx` |
+| Image crop | The upload button and Files page are in; cropping needs the matching gogo endpoint | `smartcity-backoffice-front/src/components/ImageCropModal.jsx` |
+| File picker field for forms | Choose or upload a file from inside another form (an avatar, an attachment) | `smartcity-backoffice-front/src/components/ImageUpload.jsx` |
 | Debounced server-side search | `FilterBar` exists, but nothing feeds it into query params | `smartcity-backoffice-front/src/hooks/useDebouncedCallback.js` |
 | Theme tokens + dark mode | `app/theme.ts` is the single place; add an algorithm switch | `sytno/frontend/src/app/theme.ts` for a full token set |
-| Dockerfile + nginx | Deployable image with SPA fallback and an API proxy | `sytno/frontend/Dockerfile`, `nginx.conf` |
-| Rate-limit UX on login | Show "try again in N seconds" from `Retry-After`; pairs with the gogo rate limiter | `smartcity-backoffice-front/src/stores/authStore.js` |
+| Registration page | The API can open `/auth/register`; there is no page for it | — |
 | Role editing | Roles are fixed when an account is created; needs the matching gogo endpoint | — |
 
 ## P3

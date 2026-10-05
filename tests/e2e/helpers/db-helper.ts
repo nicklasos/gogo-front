@@ -1,3 +1,4 @@
+import { createHash, randomBytes } from 'crypto'
 import { Client } from 'pg'
 import bcrypt from 'bcryptjs'
 import dotenv from 'dotenv'
@@ -22,7 +23,10 @@ interface CreateUserOptions {
   password?: string
   name?: string
   roles?: TestRole[]
+  emailVerified?: boolean
 }
+
+export type EmailTokenPurpose = 'password_reset' | 'email_verification'
 
 export interface TestExample {
   id: number
@@ -72,16 +76,32 @@ export class DatabaseHelper {
     password = 'testpassword123',
     name = 'E2E User',
     roles = ['user'],
+    emailVerified = true,
   }: CreateUserOptions = {}): Promise<TestUser> {
     const client = await this.connection()
     const hashed = await bcrypt.hash(password, 4)
     const result = await client.query(
-      `INSERT INTO users (email, name, password, roles)
-       VALUES ($1, $2, $3, $4)
+      `INSERT INTO users (email, name, password, roles, email_verified_at)
+       VALUES ($1, $2, $3, $4, CASE WHEN $5 THEN CURRENT_TIMESTAMP END)
        RETURNING id, email, name`,
-      [email, name, hashed, roles]
+      [email, name, hashed, roles, emailVerified]
     )
     return { ...result.rows[0], password, roles }
+  }
+
+  /**
+   * Stands in for the emailed link: the API stores only a hash of the token, so a test
+   * cannot read one back and plants its own instead.
+   */
+  async createEmailToken(userId: number, purpose: EmailTokenPurpose, { expired = false } = {}): Promise<string> {
+    const client = await this.connection()
+    const token = randomBytes(32).toString('hex')
+    await client.query(
+      `INSERT INTO auth_tokens (user_id, purpose, token_hash, expires_at)
+       VALUES ($1, $2, $3, CURRENT_TIMESTAMP + $4 * INTERVAL '1 hour')`,
+      [userId, purpose, createHash('sha256').update(token).digest('hex'), expired ? -1 : 1]
+    )
+    return token
   }
 
   async createExample(userId: number, { title = `E2E Example ${Date.now()}`, description = 'desc' } = {}): Promise<TestExample> {

@@ -1,0 +1,109 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: gogo_test
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+        options: >-
+          --health-cmd "redis-cli ping"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 10
+
+    env:
+      TEST_DATABASE_URL: postgres://postgres@localhost:5432/gogo_test?sslmode=disable
+      CI: "true"
+
+    steps:
+      # The E2E suite starts the API from ../gogo, so both repositories are checked out side by side.
+      - uses: actions/checkout@v4
+        with:
+          path: gogo-front
+
+      - uses: actions/checkout@v4
+        with:
+          # Change this when the skeleton is copied into a project with its own backend repository.
+          # A private backend also needs `token:` with read access to it.
+          repository: nicklasos/gogo
+          path: gogo
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: gogo/go.mod
+          cache-dependency-path: gogo/go.sum
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: gogo-front/package-lock.json
+
+      - name: Install goose
+        run: go install github.com/pressly/goose/v3/cmd/goose@v3.24.1
+
+      - name: Backend environment
+        working-directory: gogo
+        run: |
+          cat > .env <<ENV
+          DATABASE_URL=$TEST_DATABASE_URL
+          TEST_DATABASE_URL=$TEST_DATABASE_URL
+          REDIS_URL=redis://localhost:6379/0
+          JWT_SECRET=ci-only-secret-not-used-anywhere-else
+          APP_ENV=test
+          LOG_OUTPUT=stdout
+          UPLOAD_FOLDER=./uploads
+          ENABLE_SCHEDULER=false
+          ENV
+
+      - name: Frontend environment
+        working-directory: gogo-front
+        run: cp .env.example .env
+
+      - name: Install dependencies
+        working-directory: gogo-front
+        run: npm ci
+
+      - name: Generated API types are up to date
+        working-directory: gogo-front
+        run: make api-types-check
+
+      - name: Install Playwright browser
+        working-directory: gogo-front
+        run: npx playwright install --with-deps chromium
+
+      - name: Typecheck, lint, unit and E2E tests
+        working-directory: gogo-front
+        run: make test
+
+      - name: Build
+        working-directory: gogo-front
+        run: npm run build
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: gogo-front/playwright-report
+          retention-days: 7

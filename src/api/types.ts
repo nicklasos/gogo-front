@@ -1,3 +1,10 @@
+import type { InternalPaginationMeta } from './schema'
+
+/*
+ * `schema.ts` is generated from the backend's OpenAPI file (`make api-types`). Features
+ * give its types short names in their own `types.ts`; nothing else imports it directly.
+ */
+
 export type ID = number
 
 export interface Timestamps {
@@ -9,12 +16,7 @@ export interface MessageResponse {
   message: string
 }
 
-export interface PaginationMeta {
-  total: number
-  current_page: number
-  last_page: number
-  per_page: number
-}
+export type PaginationMeta = InternalPaginationMeta
 
 /** A paginated list response: `api.getPage` keeps `pagination`, which `api.get` drops. */
 export interface Page<T> {

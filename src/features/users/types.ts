@@ -1,24 +1,8 @@
-import type { ID, Timestamps } from '@/api/types'
-import type { Role } from '@/auth/roles'
+import type { InternalUsersCreateUserRequest, InternalUsersUpdateUserRequest, InternalUsersUserResponse } from '@/api/schema'
 
-export interface ManagedUser extends Timestamps {
-  id: ID
-  email: string
-  name: string
-  roles: string[]
-}
-
-export interface UserCreateRequest {
-  email: string
-  name: string
-  password: string
-  role: Role
-}
-
-export interface UserUpdateRequest {
-  email: string
-  name: string
-}
+export type ManagedUser = InternalUsersUserResponse
+export type UserCreateRequest = InternalUsersCreateUserRequest
+export type UserUpdateRequest = InternalUsersUpdateUserRequest
 
 export interface UserFormValues {
   email: string

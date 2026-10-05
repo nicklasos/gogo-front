@@ -12,6 +12,8 @@ export function useUpdateProfile() {
   })
 }
 
+export { useResendVerification } from '@/auth/hooks'
+
 export function useChangePassword() {
   return useMutation({
     mutationFn: (body: { current_password: string; new_password: string }) =>

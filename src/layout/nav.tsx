@@ -1,4 +1,11 @@
-import { AppstoreOutlined, CrownOutlined, DashboardOutlined, SafetyCertificateOutlined, TeamOutlined } from '@ant-design/icons'
+import {
+  AppstoreOutlined,
+  CrownOutlined,
+  DashboardOutlined,
+  FolderOpenOutlined,
+  SafetyCertificateOutlined,
+  TeamOutlined,
+} from '@ant-design/icons'
 import { ROLE_ADMIN, ROLE_SUPER_ADMIN } from '@/auth/roles'
 import type { NavItem } from './navMatch'
 
@@ -19,6 +26,14 @@ export const MAIN_NAV: NavItem[] = [
     testId: 'nav-examples',
     roles: 'all',
     path: '/examples',
+  },
+  {
+    key: 'files',
+    labelKey: 'navigation.files',
+    icon: <FolderOpenOutlined />,
+    testId: 'nav-files',
+    roles: 'all',
+    path: '/files',
   },
   {
     key: 'users',

@@ -7,7 +7,10 @@ import type { AuthTokens, LoginResponse, User } from './types'
 
 export const AUTH_STORAGE_KEY = 'gogo-auth'
 
-export type AuthError = { type: 'api'; errorKey: string; message: string } | { type: 'raw'; message: string }
+export type AuthError =
+  | { type: 'api'; errorKey: string; message: string }
+  | { type: 'rate_limit'; retryAfterSeconds: number }
+  | { type: 'raw'; message: string }
 
 type Result<T = object> = ({ success: true } & T) | { success: false; error?: AuthError; unauthorized?: boolean }
 
@@ -34,6 +37,9 @@ const signedOut = {
 }
 
 function toAuthError(error: unknown): AuthError {
+  if (isApiError(error) && error.status === 429) {
+    return { type: 'rate_limit', retryAfterSeconds: Number(error.details?.retry_after_seconds) || 60 }
+  }
   if (isApiError(error)) return { type: 'api', errorKey: error.errorKey, message: error.message }
   return { type: 'raw', message: error instanceof Error ? error.message : String(error) }
 }

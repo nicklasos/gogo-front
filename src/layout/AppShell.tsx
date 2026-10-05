@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { Suspense, useEffect, useMemo, useState } from 'react'
 import { Outlet, useLocation } from 'react-router-dom'
 import { Button, Drawer, Dropdown, Grid, Layout, Menu, type MenuProps } from 'antd'
 import {
@@ -12,7 +12,10 @@ import {
 import { useTranslation } from 'react-i18next'
 import { useAuthStore } from '@/auth/authStore'
 import { isSuperAdmin } from '@/auth/roles'
+import { CrashScreen } from '@/shared/components/CrashScreen'
+import { ErrorBoundary } from '@/shared/components/ErrorBoundary'
 import { LanguageSwitcher } from '@/shared/components/LanguageSwitcher'
+import { PageLoading } from '@/shared/components/PageState'
 import { useGuardedNavigate } from '@/shared/lib/unsavedChanges'
 import { ADMIN_NAV, MAIN_NAV } from './nav'
 import { selectActiveNav, visibleNav, type NavItem } from './navMatch'
@@ -179,7 +182,12 @@ export function AppShell() {
         </Header>
 
         <Content className="site-layout-content" data-testid="main-content">
-          <Outlet />
+          {/* Keyed by path: a page that crashed is replaced as soon as the user navigates elsewhere */}
+          <ErrorBoundary key={location.pathname} fallback={(_, reset) => <CrashScreen onRetry={reset} />}>
+            <Suspense fallback={<PageLoading />}>
+              <Outlet />
+            </Suspense>
+          </ErrorBoundary>
         </Content>
       </Layout>
 

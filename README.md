@@ -1,31 +1,99 @@
-# Gogo Front – React Admin Starter
+<p align="center">
+  <img src="public/favicon.svg" alt="Gogo Front" width="72">
+</p>
 
-Admin UI starter kit for the [gogo](../gogo) Go API. React 19, Vite, TypeScript, Ant Design, TanStack Query, i18next, Playwright and `node:test`.
+<h1 align="center">Gogo Front</h1>
 
-## Prerequisites
+<p align="center">
+  A React admin starter kit for the <a href="https://github.com/nicklasos/gogo">gogo</a> Go API.<br>
+  Sign-in, roles, user management and a reference CRUD module, typed end to end and covered by tests.
+</p>
 
-- Node.js 22+
-- The gogo API running, with at least one user (`make -C ../gogo cli-create-user EMAIL=... PASSWORD=...` creates a super admin)
-- `TEST_DATABASE_URL` for E2E (the gogo test database)
+<p align="center">
+  <img alt="React" src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black">
+  <img alt="TypeScript" src="https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white">
+  <img alt="Vite" src="https://img.shields.io/badge/Vite-7-646CFF?logo=vite&logoColor=white">
+  <img alt="Ant Design" src="https://img.shields.io/badge/Ant%20Design-5-0170FE?logo=antdesign&logoColor=white">
+  <img alt="TanStack Query" src="https://img.shields.io/badge/TanStack%20Query-5-FF4154?logo=reactquery&logoColor=white">
+  <img alt="Playwright" src="https://img.shields.io/badge/E2E-Playwright-2EAD33?logo=playwright&logoColor=white">
+</p>
+
+<p align="center">
+  <a href="#quick-start">Quick start</a> ·
+  <a href="#features">Features</a> ·
+  <a href="#screenshots">Screenshots</a> ·
+  <a href="#adding-a-module">Add a module</a> ·
+  <a href="ROADMAP.md">Roadmap</a>
+</p>
+
+![User management with the admin menu](docs/screenshots/admins.png)
+
+---
+
+Gogo Front is a skeleton, not a framework: copy it, rename it, and add feature folders. It ships the parts every admin panel needs so a new project starts at its first real screen.
 
 ## Quick start
 
+### Prerequisites
+
+- Node.js 22+
+- A running [gogo](https://github.com/nicklasos/gogo) API with at least one user
+
+### Setup
+
 ```bash
-cp .env.example .env
+git clone git@github.com:nicklasos/gogo-front.git my-admin && cd my-admin
+
+cp .env.example .env    # VITE_API_BASE_URL points at gogo, http://localhost:8181 by default
 npm install
-npm run dev   # http://localhost:5173
+npm run dev             # http://localhost:5173
 ```
+
+Create the first super admin in the gogo repo, then sign in with it:
+
+```bash
+make cli-create-user EMAIL=admin@example.com PASSWORD=password123
+```
+
+### Tests
+
+```bash
+make playwright-browsers   # once
+make test                  # typecheck, lint, unit tests, Playwright
+```
+
+The E2E run starts its own gogo API against the test database and its own Vite server, so it needs the gogo repo next to this one (`../gogo`) and `TEST_DATABASE_URL` in `.env`.
 
 ## Features
 
-- Email/password login with automatic token refresh
-- Roles: `super-admin`, `admin`, `user`, with route guards and role-filtered menus
-- User management: super admins and admins from a right-side admin menu (super admins only), users from the main menu (admins and super admins)
-- Profile: name, email, language and password
-- **Examples** module: server-paginated list and an editor with an unsaved-changes guard
-- Typed API client: `ApiError`, server validation errors mapped onto form fields, translated error keys
-- Responsive shell: tables turn into cards and the primary action becomes a bottom bar on phones
-- English and Ukrainian
+- **Auth**: email/password login, automatic token refresh, session kept across reloads and tabs
+- **Password reset and email verification**: forgot-password, reset and confirm pages for the emailed links, and a "try again in N minutes" message when the API throttles sign-in
+- **Roles**: `super-admin`, `admin`, `user`, with route guards and role-filtered menus
+- **User management**: super admins and admins from a right-side admin menu that only super admins see; users from the main menu
+- **Profile**: name, email, language and password
+- **Examples module**: a server-paginated list and an editor with an unsaved-changes guard, as the pattern to copy
+- **Files**: upload with type and size checks, thumbnails, paginated list
+- **Generated API types**: `make api-types` turns the backend's OpenAPI file into `src/api/schema.ts`
+- **Typed API client**: `ApiError`, server validation errors mapped onto form fields, translated error keys
+- **Resilient**: a page that crashes shows an error screen inside the shell instead of blanking the app, unknown URLs get a not-found page, and every page is a lazily loaded chunk
+- **Responsive**: tables become cards and the primary action becomes a bottom bar on phones
+- **i18n**: English and Ukrainian
+- **Docker and CI**: an nginx image that serves the build and proxies `/api`, and a GitHub Actions workflow that runs the whole suite
+- **Tests**: unit tests on `node:test`, Playwright E2E with page objects, everything in TypeScript
+
+## Screenshots
+
+| Sign in | List with server-side paging |
+|---|---|
+| ![Sign in](docs/screenshots/login.png) | ![Examples list](docs/screenshots/examples.png) |
+
+| Editor | Create an admin |
+|---|---|
+| ![Example editor](docs/screenshots/example-editor.png) | ![Create an admin](docs/screenshots/add-admin.png) |
+
+| Profile | On a phone |
+|---|---|
+| ![Profile](docs/screenshots/profile.png) | <img src="docs/screenshots/mobile.png" alt="Examples on a phone" width="300"> |
 
 ## Make targets
 
@@ -37,6 +105,8 @@ make test-unit       # node:test
 make test-e2e        # Playwright (starts gogo --test-db + Vite on the E2E ports)
 make test            # everything
 make build
+make api-types       # regenerate src/api/schema.ts from ../gogo/docs/swagger.json
+make api-types-check # fail if it is out of date (CI runs this)
 make playwright-browsers
 ```
 
@@ -62,7 +132,7 @@ src/
   auth/       authStore (persist key: gogo-auth), roles, guards, LoginPage
   layout/     AppShell, nav registry
   shared/     components, hooks, utils, lib/unsavedChanges
-  features/   dashboard, examples, users, account
+  features/   dashboard, examples, uploads, users, account
   locales/{en,uk}/
 tests/e2e/    Playwright specs, page objects, helpers
 ```
@@ -76,6 +146,19 @@ Create `src/features/<module>/{types,api,hooks}.ts` and `pages/`, add query keys
 - Success: `{ "data": ... }`; paginated lists: `{ "data": [...], "pagination": { total, current_page, last_page, per_page } }`
 - Errors: `{ "error_key", "message", "status" }`; validation: `{ "error_key": "validation.failed", "errors": { "field": ["validation.field.rule"] } }`
 - `/auth/login` returns `{ access_token, refresh_token, user }`; `user` is `{ id, email, name, roles }`
+
+## Docker
+
+```bash
+docker build -t gogo-front .
+docker run -p 8080:80 -e API_UPSTREAM=http://host.docker.internal:8181 gogo-front
+```
+
+The image is the production build behind nginx. With `VITE_API_BASE_URL` left empty at build time the app calls its own origin, and nginx forwards `/api` and `/health` to `API_UPSTREAM`.
+
+## CI
+
+`.github/workflows/ci.yml` checks out this repository and the backend side by side, starts Postgres and Redis, and runs `make api-types-check`, `make test` and the build. The backend repository is named in the workflow; change it when you copy the skeleton.
 
 ## Roadmap
 

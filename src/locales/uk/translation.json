@@ -19,7 +19,8 @@
     "copied": "Скопійовано",
     "search": "Пошук",
     "notFound": "Не знайдено",
-    "retry": "Спробувати ще раз"
+    "retry": "Спробувати ще раз",
+    "backHome": "На головну"
   },
   "auth": {
     "welcome": "Увійдіть, щоб продовжити",
@@ -32,7 +33,32 @@
     "passwordRequired": "Пароль обовʼязковий",
     "invalidCredentials": "Невірний email або пароль",
     "accessDenied": "Доступ заборонено",
-    "noPermission": "У вас немає прав на перегляд цієї сторінки."
+    "noPermission": "У вас немає прав на перегляд цієї сторінки.",
+    "forgotPassword": "Забули пароль?",
+    "forgotPasswordTitle": "Відновлення пароля",
+    "forgotPasswordHint": "Введіть email, і ми надішлемо посилання для встановлення нового пароля.",
+    "sendResetLink": "Надіслати посилання",
+    "resetLinkSentTitle": "Перевірте пошту",
+    "resetLinkSent": "Якщо цей email належить акаунту, посилання для відновлення пароля вже в дорозі.",
+    "backToLogin": "Назад до входу",
+    "resetPasswordTitle": "Оберіть новий пароль",
+    "setNewPassword": "Встановити пароль",
+    "passwordResetDone": "Пароль оновлено. Увійдіть з новим.",
+    "requestNewLink": "Запросити нове посилання",
+    "emailVerified": "Email підтверджено",
+    "verifyEmailRetryHint": "Нове посилання можна запросити у профілі.",
+    "continue": "Продовжити",
+    "tooManyAttempts": {
+      "minute": "Забагато спроб. Спробуйте за хвилину.",
+      "minutes_one": "Забагато спроб. Спробуйте через {{count}} хвилину.",
+      "minutes_few": "Забагато спроб. Спробуйте через {{count}} хвилини.",
+      "minutes_many": "Забагато спроб. Спробуйте через {{count}} хвилин.",
+      "minutes_other": "Забагато спроб. Спробуйте через {{count}} хвилини.",
+      "hours_one": "Забагато спроб. Спробуйте через {{count}} годину.",
+      "hours_few": "Забагато спроб. Спробуйте через {{count}} години.",
+      "hours_many": "Забагато спроб. Спробуйте через {{count}} годин.",
+      "hours_other": "Забагато спроб. Спробуйте через {{count}} години."
+    }
   },
   "navigation": {
     "dashboard": "Дашборд",
@@ -41,13 +67,21 @@
     "profile": "Профіль",
     "adminMenu": "Адмін-меню",
     "superAdmins": "Супер-адміни",
-    "admins": "Адміни"
+    "admins": "Адміни",
+    "files": "Файли"
   },
   "enums": {
     "role": {
       "super-admin": "Супер-адмін",
       "admin": "Адмін",
       "user": "Користувач"
+    },
+    "uploadType": {
+      "image": "Зображення",
+      "video": "Відео",
+      "audio": "Аудіо",
+      "document": "Документ",
+      "other": "Інше"
     }
   },
   "dashboard": {
@@ -113,7 +147,11 @@
     "newPassword": "Новий пароль",
     "confirmPassword": "Підтвердіть пароль",
     "passwordMismatch": "Паролі не збігаються",
-    "passwordChanged": "Пароль змінено"
+    "passwordChanged": "Пароль змінено",
+    "emailNotVerified": "Ваш email не підтверджено",
+    "emailNotVerifiedHint": "Ми надіслали посилання для підтвердження на {{email}}.",
+    "resendVerification": "Надіслати ще раз",
+    "verificationSent": "Лист для підтвердження надіслано"
   },
   "messages": {
     "unsavedChangesTitle": "Незбережені зміни",
@@ -147,6 +185,31 @@
     "validation.invalid": "Некоректне значення",
     "validation.type_mismatch": "Невірний тип значення",
     "validation.body_invalid": "Некоректний запит",
-    "validation.title.required": "Заголовок обовʼязковий"
+    "validation.title.required": "Заголовок обовʼязковий",
+    "network": "Не вдалося зʼєднатися із сервером. Перевірте зʼєднання і спробуйте ще раз.",
+    "auth.too_many_requests": "Забагато спроб. Спробуйте пізніше.",
+    "auth.registration_disabled": "Реєстрацію вимкнено",
+    "auth.invalid_or_expired_link": "Посилання недійсне або термін його дії минув",
+    "auth.email_already_verified": "Ваш email уже підтверджено",
+    "uploads.type_not_allowed": "Цей тип файлу не дозволено",
+    "uploads.too_large": "Файл завеликий",
+    "uploads.empty": "Файл порожній",
+    "validation.error": "Некоректний запит",
+    "crashTitle": "На цій сторінці сталася помилка",
+    "crashHint": "Решта застосунку працює. Спробуйте ще раз або перезавантажте сторінку.",
+    "reloadPage": "Перезавантажити сторінку"
+  },
+  "uploads": {
+    "title": "Файли",
+    "hint": "Зображення, документи, аудіо та відео до {{max}} МБ.",
+    "upload": "Завантажити",
+    "uploaded": "Файл завантажено",
+    "deleted": "Файл видалено",
+    "deleteConfirm": "Видалити цей файл?",
+    "empty": "Файлів ще немає",
+    "name": "Назва",
+    "type": "Тип",
+    "size": "Розмір",
+    "tooLarge": "Файл більший за {{max}} МБ"
   }
 }

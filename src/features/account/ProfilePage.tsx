@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
-import { Card, Form, Input, Button } from 'antd'
+import { Alert, Card, Form, Input, Button } from 'antd'
 import { UserOutlined, LockOutlined } from '@ant-design/icons'
 import { useTranslation } from 'react-i18next'
 import { useCurrentUser } from '@/auth/authStore'
 import { LanguageSwitcher } from '@/shared/components/LanguageSwitcher'
 import { PageHeader } from '@/shared/components/PageHeader'
 import message from '@/shared/utils/message'
-import { useChangePassword, useUpdateProfile } from './hooks'
+import { useChangePassword, useResendVerification, useUpdateProfile } from './hooks'
 import { PageStack } from '@/shared/components/PageStack'
 
 interface PasswordValues {
@@ -20,6 +20,7 @@ export default function ProfilePage() {
   const user = useCurrentUser()
   const updateProfile = useUpdateProfile()
   const changePassword = useChangePassword()
+  const resend = useResendVerification()
 
   const [profileForm] = Form.useForm<{ name: string; email: string }>()
   const [passwordForm] = Form.useForm<PasswordValues>()
@@ -47,6 +48,26 @@ export default function ProfilePage() {
       <Card>
         <PageHeader icon={<UserOutlined />} title={t('profile.title')} subtitle={user?.email} />
       </Card>
+
+      {user && !user.email_verified && (
+        <Alert
+          data-testid="email-unverified-alert"
+          type="warning"
+          showIcon
+          message={t('profile.emailNotVerified')}
+          description={t('profile.emailNotVerifiedHint', { email: user.email })}
+          action={
+            <Button
+              data-testid="resend-verification-button"
+              size="small"
+              loading={resend.isPending}
+              onClick={() => resend.mutate(undefined, { onSuccess: () => message.success(t('profile.verificationSent')) })}
+            >
+              {t('profile.resendVerification')}
+            </Button>
+          }
+        />
+      )}
 
       <Card data-testid="profile-info-card" title={t('profile.personalInfo')}>
         <Form form={profileForm} layout="vertical" onFinish={handleProfileUpdate} data-testid="profile-form">

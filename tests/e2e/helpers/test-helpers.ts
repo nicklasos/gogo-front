@@ -37,8 +37,8 @@ export async function loginViaAPI(page: Page, email: string, password: string): 
 }
 
 /** Creates a user with the given role and signs the page in as them. */
-export async function loginAs(page: Page, role: TestRole): Promise<TestUser> {
-  const user = await dbHelper.createUser({ roles: [role], name: `E2E ${role}` })
+export async function loginAs(page: Page, role: TestRole, options: { emailVerified?: boolean } = {}): Promise<TestUser> {
+  const user = await dbHelper.createUser({ roles: [role], name: `E2E ${role}`, ...options })
   await loginViaAPI(page, user.email, user.password)
   return user
 }
