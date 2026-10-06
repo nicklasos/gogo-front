@@ -18,6 +18,7 @@ import message from '@/shared/utils/message'
 import { generatePassword } from '@/shared/utils/password'
 import { applyFormErrors } from '@/shared/utils/formErrors'
 import { useDeleteUser, useSaveUser, useSetUserPassword, useUsers } from '../hooks'
+import { canDeleteUser } from '../policy'
 import type { ManagedUser, UserFormValues } from '../types'
 
 const FORM_FIELDS = ['name', 'email', 'password'] as const
@@ -100,7 +101,7 @@ export function UserManagement({ role, icon }: Props) {
       entity="user"
       id={record.id}
       onEdit={() => openModal(record)}
-      onDelete={record.id === currentUser?.id ? undefined : () => onDelete(record)}
+      onDelete={canDeleteUser(currentUser, record) ? () => onDelete(record) : undefined}
       deleteTitle={t('userManagement.deleteConfirm')}
       deleteDescription={t('userManagement.deleteConfirmDescription')}
     >

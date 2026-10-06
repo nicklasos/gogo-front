@@ -68,6 +68,8 @@ The E2E run starts its own gogo API against the test database and its own Vite s
 
 - **Auth**: email/password login, automatic token refresh, session kept across reloads and tabs
 - **Password reset and email verification**: forgot-password, reset and confirm pages for the emailed links, and a "try again in N minutes" message when the API throttles sign-in
+- **Policies**: per-record rules (`canUpdateExample(user, example)`) that mirror the API's and decide what the UI offers
+- **Agent recipes**: step-by-step procedures in `docs/recipes/` for the common changes, also available as Claude Code skills
 - **Roles**: `super-admin`, `admin`, `user`, with route guards and role-filtered menus
 - **User management**: super admins and admins from a right-side admin menu that only super admins see; users from the main menu
 - **Profile**: name, email, language and password
@@ -140,7 +142,7 @@ tests/e2e/    Playwright specs, page objects, helpers
 
 ## Adding a module
 
-Create `src/features/<module>/{types,api,hooks}.ts` and `pages/`, add query keys, a route and a menu entry. `CLAUDE.md` has the step-by-step list and the conventions; `features/examples` is the reference.
+Follow [docs/recipes/add-feature.md](docs/recipes/add-feature.md), or [full-stack-feature.md](docs/recipes/full-stack-feature.md) when the API side is new too. In short: `src/features/<module>/{types,api,hooks,policy}.ts` and `pages/`, query keys, a route, a menu entry and locale keys. `features/examples` is the reference.
 
 ## API contract (gogo)
 

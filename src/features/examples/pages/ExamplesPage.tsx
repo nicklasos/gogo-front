@@ -4,6 +4,7 @@ import { AppstoreOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons'
 import type { ColumnsType } from 'antd/es/table'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { useCurrentUser } from '@/auth/authStore'
 import { MarkdownViewer } from '@/shared/components/markdown/MarkdownViewer'
 import { PageHeader } from '@/shared/components/PageHeader'
 import { PageStack } from '@/shared/components/PageStack'
@@ -14,11 +15,13 @@ import { formatDateTime } from '@/shared/utils/format'
 import { markdownToPlainText } from '@/shared/utils/markdownLinks'
 import message from '@/shared/utils/message'
 import { useDeleteExample, useExamples } from '../hooks'
+import { canDeleteExample, canUpdateExample } from '../policy'
 import type { Example } from '../types'
 
 export default function ExamplesPage() {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const user = useCurrentUser()
   const paging = usePageParams()
   const examples = useExamples(paging.params)
   const remove = useDeleteExample()
@@ -31,8 +34,8 @@ export default function ExamplesPage() {
     <RowActions
       entity="example"
       id={example.id}
-      onEdit={() => navigate(`/examples/${example.id}/edit`)}
-      onDelete={() => onDelete(example)}
+      onEdit={canUpdateExample(user, example) ? () => navigate(`/examples/${example.id}/edit`) : undefined}
+      onDelete={canDeleteExample(user, example) ? () => onDelete(example) : undefined}
       deleteTitle={t('examples.deleteConfirm')}
     >
       <Tooltip title={t('examples.view')}>
